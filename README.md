@@ -1,1 +1,1 @@
-# sriov-gpu-device-plugin
+# sriov-gfx-device-plugin
