@@ -1,1 +1,1 @@
-# sriov-gfx-device-plugin
+# KubeVirt Graphics SR-IOV
