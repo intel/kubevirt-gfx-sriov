@@ -1,0 +1,13 @@
+[Unit]
+Description=Intel Integrated Graphics SR-IOV Virtual Function Manager
+ConditionPathExists=/sys/bus/pci/devices/0000:00:02.0/sriov_totalvfs
+ConditionPathExists=/var/vm/scripts/configvfs.sh
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/bin/bash /var/vm/scripts/configvfs.sh -e
+ExecStop=/bin/bash /var/vm/scripts/configvfs.sh -d
+
+[Install]
+WantedBy=multi-user.target
