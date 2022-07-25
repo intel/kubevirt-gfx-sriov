@@ -7,8 +7,8 @@
     1.1 [Scope](#scope)
     1.2 [Purpose](#purpose)
     1.3 [Acronyms](#acronyms)
-  2. [KubeVirt Graphics SR-IOV Architecture](#kubevirt graphics sr-iov)
-    2.1 [Architecture design](#architecture design)
+  2. [KubeVirt Graphics SR-IOV Architecture](#kubevirt-graphics-sr-iov-architecture)
+    2.1 [Architecture design](#architecture-design)
  
  ## Introduction
  KubeVirt Graphics SR-IOV software package provides simple steps for cloud native graphics SR-IOV enablement. 
@@ -20,23 +20,23 @@
  This document intends to bring additional clarity to the development teams to understand the overall architecture and components involved.
  
  ### Acronyms
- | K8s           |  'Kubernetes'                                    |
- | K3s           |  'Lightweight K8s distribution'                  |
- | Gfx           |  'Graphics'                                      |
- | SR-IOV        |  'Single Root I/O Virtualization'                |
- | VF            |  'SR-IOV Virtual Function'                       |
- | PF            |  'SR-IOV Physical Funciotn'                      |
+ | K8s           |  Kubernetes                                    |
+ | K3s           |  Lightweight K8s distribution                  |
+ | Gfx           |  Graphics                                      |
+ | SR-IOV        |  Single Root I/O Virtualization                |
+ | VF            |  SR-IOV Virtual Function                       |
+ | PF            |  SR-IOV Physical Funciotn                      |
  
  ## KubeVirt Graphics SR-IOV Architecture
  KubeVirt Graphics SR-IOV (Kubevirt-Gfx-SRIOV) leverage Kubernetes orchestrator and KubeVirt to deploy and manage VM resources. Ready to use images are encapsulated by container in dedicated repository, will be deployed by KubeVirt with a simple command line.
  
  ### Architecture design
  The purpose of this software package is to enable Graphics SR-IOV for cloud native application.  The software package consist of YAML files and bash script files. The YAML files that are needed to configure the virtual environment running on Kubernetes cluster. The bash script files provided are for graphic SR-IOV enablement and Kubernetes cluster setup. 
- <img src="media/KubeVirt Graphics SR-IOV/image1.png" />
+ <img src="media/image1.png" />
  
  The diagram below is the design for this software package. It consist of YAML files bash script files. The bash script files automate the installation of virtual machine environment and graphic SR-IOV enablement. The YAML files consist of configuration for virtual environment and graphic SR-IOV configuration.
-<img src="media/KubeVirt Graphics SR-IOV/image2.png" />
+<img src="media/image2.png" />
 
  The following diagram shows the inter-op of each components
- <img src="media/KubeVirt Graphics SR-IOV/image3.png" />
+ <img src="media/image3.png" />
  
