@@ -2,15 +2,13 @@
 
 ## Revision 0.1
 
-<details>
-  <summary> Table of Contents</summary>
+## Table of Contents
   1. [Introduction](#introduction)
     1.1 [Scope](#scope)
     1.2 [Purpose](#purpose)
     1.3 [Acronyms](#acronyms)
-  2. KubeVirt Graphics SR-IOV Architecture
-    2.1 Architecture design(#architecture)
- </details>
+  2. [KubeVirt Graphics SR-IOV Architecture](#kubevirt graphics sr-iov)
+    2.1 [Architecture design](#architecture design)
  
  ## Introduction
  KubeVirt Graphics SR-IOV software package provides simple steps for cloud native graphics SR-IOV enablement. 
@@ -22,12 +20,12 @@
  This document intends to bring additional clarity to the development teams to understand the overall architecture and components involved.
  
  ### Acronyms
- | K8s           |  Kubernetes                                    |
- | K3s           |  Lightweight K8s distribution                  |
- | Gfx           |  Graphics                                      |
- | SR-IOV        |  Single Root I/O Virtualization                |
- | VF            |  SR-IOV Virtual Function                       |
- | PF            |  SR-IOV Physical Funciotn                      |
+ | K8s           |  'Kubernetes'                                    |
+ | K3s           |  'Lightweight K8s distribution'                  |
+ | Gfx           |  'Graphics'                                      |
+ | SR-IOV        |  'Single Root I/O Virtualization'                |
+ | VF            |  'SR-IOV Virtual Function'                       |
+ | PF            |  'SR-IOV Physical Funciotn'                      |
  
  ## KubeVirt Graphics SR-IOV Architecture
  KubeVirt Graphics SR-IOV (Kubevirt-Gfx-SRIOV) leverage Kubernetes orchestrator and KubeVirt to deploy and manage VM resources. Ready to use images are encapsulated by container in dedicated repository, will be deployed by KubeVirt with a simple command line.
