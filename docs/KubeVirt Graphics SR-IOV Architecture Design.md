@@ -34,11 +34,11 @@
  
  ### Architecture design
  The purpose of this software package is to enable Graphics SR-IOV for cloud native application.  The software package consist of YAML files and bash script files. The YAML files that are needed to configure the virtual environment running on Kubernetes cluster. The bash script files provided are for graphic SR-IOV enablement and Kubernetes cluster setup. 
- <img src="media/KubeVirt Graphics SR-IOV/image1.png" alt="P1189#yIS1" style="width:5.39583in;height:3.97917in" />
+ <img src="media/KubeVirt Graphics SR-IOV/image1.png" />
  
  The diagram below is the design for this software package. It consist of YAML files bash script files. The bash script files automate the installation of virtual machine environment and graphic SR-IOV enablement. The YAML files consist of configuration for virtual environment and graphic SR-IOV configuration.
-<img src="media/KubeVirt Graphics SR-IOV/image2.png" alt="P1189#yIS1" style="width:5.39583in;height:3.97917in" />
+<img src="media/KubeVirt Graphics SR-IOV/image2.png" />
 
  The following diagram shows the inter-op of each components
- <img src="media/KubeVirt Graphics SR-IOV/image3.png" alt="P1189#yIS1" style="width:5.39583in;height:3.97917in" />
+ <img src="media/KubeVirt Graphics SR-IOV/image3.png" />
  
