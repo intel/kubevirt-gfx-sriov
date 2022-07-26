@@ -50,8 +50,10 @@ disable_vfs()
         exit 104
     fi
 
-    for (( index = 1; index <= $numvfs; index++ )); do
+    index=1
+    while [ $index -le $numvfs ]; do
         echo 0000\:00\:02.$index > /sys/bus/pci/drivers/vfio-pci/unbind
+        index=$(( $index + 1 ))
     done
 
     vendor=$(cat $IGPU_PCIDEV_PATH/vendor)
@@ -75,13 +77,13 @@ usage()
 while getopts "ed" opt; do
     case "${opt}" in
         e) enable_vfs
-           exit 0
+           exit
            ;;
         d) disable_vfs
-           exit 0 
+           exit
            ;;
     esac
 done
 
 usage
-exit 0
+exit
