@@ -1,0 +1,89 @@
+apiVersion: v1 
+kind: PersistentVolume
+metadata:
+  name: pv-volume-ubuntu
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 30Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/var/vm/images/ubuntu21"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: linuxbootdisk
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 30Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vm-ubuntu-ssh
+  namespace: default
+spec:
+  ports:
+    - name: vm-ubuntu-ssh
+      protocol: TCP
+      port: 22
+      targetPort: 22
+  selector:
+    kubevirt.io/name: vm-pvc-ubuntu
+  type: NodePort
+
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-pvc-ubuntu
+  namespace: default
+spec:
+  running: true
+  template:
+    metadata:
+      labels:
+        kubevirt.io/name: vm-pvc-ubuntu
+    spec:
+      domain:
+        cpu:
+          cores: 4
+          model: host-passthrough
+        memory:
+          guest: "4G"
+        devices:
+          # autoattachGraphicsDevice: false
+          gpus:
+          - name: igpu
+            deviceName: intel.com/sriov-gpudevice
+          disks:
+          - name: bootdisk
+            bootOrder: 1
+            disk:
+              bus: virtio
+          autoattachPodInterface: True
+          interfaces:
+          - name: default
+            masquerade: {}
+        machine:
+          type: q35
+        firmware:
+          bootloader:
+            efi:
+              secureBoot: false
+      terminationGracePeriodSeconds: 0
+      networks:
+      - name: default
+        pod: {}
+      volumes:
+      - name: bootdisk
+        persistentVolumeClaim:
+          claimName: linuxbootdisk

@@ -1,0 +1,126 @@
+apiVersion: v1 
+kind: PersistentVolume
+metadata:
+  name: pv-volume-win10
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 30Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/var/vm/images/win10"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: winbootdisk
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 30Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vm-win10-ssh
+  namespace: default
+spec:
+  ports:
+    - name: vm-win10-ssh
+      protocol: TCP
+      port: 22
+      targetPort: 22
+  selector:
+    kubevirt.io/name: vm-pvc-win10
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vm-win10-rdp
+  namespace: default
+spec:
+  ports:
+    - port: 3389
+      name: rdp
+      protocol: TCP
+      targetPort: 3389
+  selector:
+    kubevirt.io/name: vm-pvc-win10
+  externalTrafficPolicy: Cluster
+  type: LoadBalancer
+
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm-pvc-win10
+  namespace: default
+spec:
+  running: true
+  template:
+    metadata:
+      labels:
+        kubevirt.io/name: vm-pvc-win10
+    spec:
+      domain:
+        cpu:
+          cores: 4
+          model: host-passthrough
+        memory:
+          guest: "4G"
+        devices:
+          # autoattachGraphicsDevice: false
+          disks:
+          - name: cdromiso
+            bootOrder: 2
+            cdrom:
+              bus: sata
+              readonly: true
+          - name: bootdisk
+            bootOrder: 1
+            disk:
+              bus: virtio
+          - name: virtiocontainerdisk
+            cdrom:
+              bus: sata
+              readonly: true
+          - name: winutil
+            cdrom:
+              bus: sata
+              readonly: true
+          autoattachPodInterface: True
+          interfaces:
+          - name: default
+            masquerade: {}
+        machine:
+          type: q35
+        firmware:
+          bootloader:
+            efi:
+              secureBoot: false
+      terminationGracePeriodSeconds: 0
+      networks:
+      - name: default
+        pod: {}
+      volumes:
+      - name: cdromiso
+        containerDisk:
+          image: huichuno/win10-iso-containerdisk
+      - name: bootdisk
+        persistentVolumeClaim:
+          claimName: winbootdisk
+      - containerDisk:
+          image: kubevirt/virtio-container-disk
+        name: virtiocontainerdisk
+      - name: winutil
+        containerDisk:
+          image: huichuno/winutil-iso-containerdisk
+          imagePullPolicy: IfNotPresent
