@@ -107,7 +107,7 @@ conf_k3s()
 
 install_kubevirt()
 {
-  echo "Uninstalling KubeVirt"
+  echo "Installing KubeVirt"
   # deploy kubevirt operator
   kubectl apply -f https://github.com/kubevirt/kubevirt/releases/download/${KV_VERSION}/kubevirt-operator.yaml
 
