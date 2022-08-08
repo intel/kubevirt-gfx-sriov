@@ -165,7 +165,7 @@ uninstall_krew()
   rm -rf -- ~/.krew
 }
 
-config_krew()
+conf_krew()
 {
   echo "Configure krew"
 
@@ -256,13 +256,3 @@ done
 
 usage
 exit 0
-
-# if [[ $1 = "install" ]]; then
-#   install_apps
-# elif [[ $1 = "uninstall" ]]; then
-#   uninstall_apps
-# elif [[ -z $1 ]]; then
-#   usage
-# else
-#   usage
-# fi
