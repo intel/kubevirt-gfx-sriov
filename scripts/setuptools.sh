@@ -15,12 +15,6 @@ warn()
 check_sw_installed()
 {
   clear
-  if command_exists docker; then
-    warn "Docker appears to be installed on the system."
-    warn "Please uninstall Docker before continuing installation."
-    echo ""
-  fi
-
   if command_exists kubectl; then
     warn "Kubernetes software appears to be installed on the system."
     warn "Please uninstall Kubernetes software before continuing installation."
@@ -28,41 +22,10 @@ check_sw_installed()
   fi
 }
 
-install_docker()
-{
-  echo "Installing docker"
-  sudo apt-get update
-  sudo apt-get install ca-certificates curl gnupg lsb-release -y
-
-  sudo rm /usr/share/keyrings/docker-archive-keyring.gpg
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-  echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-  sudo apt-get update
-  sudo apt-get install docker-ce docker-ce-cli containerd.io -y
-}
-
-uninstall_docker()
-{
-  echo "Uninstalling docker"
-  sudo apt-get purge docker-ce docker-ce-cli containerd.io -y
-  sudo rm -rf /var/lib/docker
-  sudo rm -rf /var/lib/containerd
-}
-
-conf_usergroup()
-{
-  echo "Configure usergroup"
-  sudo usermod -aG docker ${USER}
-}
-
 install_k3s()
 {
   echo "Installing K3s"
-  curl -sfL https://get.k3s.io | sh -s - --docker --disable=traefik --write-kubeconfig-mode=644
+  curl -sfL https://get.k3s.io | sh -s - --disable=traefik --write-kubeconfig-mode=644
 }
 
 uninstall_k3s()
@@ -114,7 +77,7 @@ install_kubevirt()
   # deploy kubevirt CRD
   kubectl apply -f https://github.com/kubevirt/kubevirt/releases/download/${KV_VERSION}/kubevirt-cr.yaml
 
-  # kubectl -n kubevirt wait kv/kubevirt --for condition=available --timeout 120s
+  kubectl -n kubevirt wait kv/kubevirt --for condition=available --timeout 120s
 }
 
 uninstall_kubevirt()
@@ -133,7 +96,7 @@ install_cdi()
 
   kubectl apply -f https://github.com/kubevirt/containerized-data-importer/releases/download/${CDI_VERSION}/cdi-cr.yaml
 
-  # kubectl -n cdi wait cdi/cdi --for condition=available --timeout 120s
+  kubectl -n cdi wait cdi/cdi --for condition=available --timeout 120s
 }
 
 uninstall_cdi()
@@ -197,9 +160,6 @@ install_apps()
 {
   check_sw_installed
 
-  install_docker
-  conf_usergroup
-
   install_k3s
   conf_k3s
 
@@ -220,7 +180,6 @@ uninstall_apps()
   uninstall_krew
   uninstall_kubevirt
   uninstall_k3s
-  uninstall_docker
   undo_conf
 
   echo ""
@@ -237,8 +196,8 @@ usage()
   echo ""
   echo "Usage: $0 <option>"
   echo "options:"
-  echo "   -i  : Install Docker, K3s, KubeVirt, CDI, Krew, virt-plugin"
-  echo "   -u  : Uninstall Docker, K3s, KubeVirt, CDI, Krew, virt-plugin"
+  echo "   -i  : Install K3s, KubeVirt, CDI, Krew, virt-plugin"
+  echo "   -u  : Uninstall K3s, KubeVirt, CDI, Krew, virt-plugin"
   echo ""
 }
 
