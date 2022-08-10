@@ -1,5 +1,4 @@
 #!/bin/bash
-#set -e
 
 KV_VERSION="v0.53.0"
 CDI_VERSION="v1.48.1"
@@ -88,9 +87,6 @@ uninstall_kubevirt()
 {
   info "Uninstalling KubeVirt"
   kubectl delete -n kubevirt kubevirt kubevirt --wait=true
-  kubectl delete apiservices v1alpha3.subresources.kubevirt.io
-  kubectl delete mutatingwebhookconfigurations virt-api-mutator
-  kubectl delete validatingwebhookconfigurations virt-api-validator
   kubectl delete -f https://github.com/kubevirt/kubevirt/releases/download/${KV_VERSION}/kubevirt-operator.yaml --wait=false
 }
 
@@ -177,18 +173,20 @@ become_superuser()
 usage() 
 {
   echo ""
-  echo "Usage: $0 option [argument]"
+  echo "Usage: $0 option [arguments]"
   echo "option:"
-  echo "    -i  : Install [arg]"
-  echo "    -u  : Uninstall [arg]"
+  echo "    -i  : Install [args]"
+  echo "    -u  : Uninstall [args]"
   echo "    -h  : Help"
-  echo "[argument]:"
+  echo "argument:"
   echo "     k  : K3s"
   echo "     v  : KubeVirt, CDI"
   echo "     w  : Krew, virt-plugin"
   echo "Example:"
   echo "  # Install K3s, KubeVirt, CDI, Krew, virt-plugin"
   echo "    $0 -ikvw"
+  echo "  # Install Krew, virt-plugin"
+  echo "    $0 -i w"
   echo "  # Uninstall KubeVirt, CDI"
   echo "    $0 -uv"
   echo ""
