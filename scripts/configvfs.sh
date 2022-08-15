@@ -6,19 +6,19 @@ enable_vfs()
 {
     if [ ! -f $IGPU_PCIDEV_PATH/sriov_totalvfs ]; then
         echo "System doesn't support Graphics SR-IOV"
-        exit 101
+        exit 1
     fi
 
     totalvfs=$(cat $IGPU_PCIDEV_PATH/sriov_totalvfs)
     if [ $totalvfs -eq 0 ]; then 
         echo "Total number of VF is 0. Nothing to do"
-        exit 102
+        exit 1
     fi
 
     numvfs=$(cat $IGPU_PCIDEV_PATH/sriov_numvfs)
     if [ $numvfs -ne 0 ]; then 
         echo "VF already enabled: $numvfs. Nothing to do"
-        exit 103
+        exit 1
     fi
 
     echo "Total VF: $totalvfs"
@@ -47,7 +47,7 @@ disable_vfs()
 
     if [ $numvfs -eq 0 ]; then 
         echo "Number of VF enabled is 0. Nothing to do"
-        exit 104
+        exit 1
     fi
 
     index=1
@@ -60,9 +60,9 @@ disable_vfs()
     device=$(cat $IGPU_PCIDEV_PATH/device)
     echo "$vendor $device" > /sys/bus/pci/drivers/vfio-pci/remove_id
 
-    echo '0' > /sys/bus/pci/devices/0000\:00\:02.0/sriov_drivers_autoprobe
+    echo '0' > $IGPU_PCIDEV_PATH/sriov_drivers_autoprobe
     echo '0' > /sys/class/drm/card0/device/sriov_numvfs
-    echo '1' > /sys/bus/pci/devices/0000\:00\:02.0/sriov_drivers_autoprobe
+    echo '1' > $IGPU_PCIDEV_PATH/sriov_drivers_autoprobe
     echo "VF disabled: $numvfs"
 }
 
@@ -72,18 +72,13 @@ usage()
     echo "options:"
     echo "   -e     : enable VFs"
     echo "   -d     : disable VFs"
+    echo
 }
 
-while getopts "ed" opt; do
-    case "${opt}" in
-        e) enable_vfs
-           exit
-           ;;
-        d) disable_vfs
-           exit
-           ;;
-    esac
-done
-
-usage
-exit
+if [ "$1" = "-e" ]; then
+    echo enable_vfs
+elif [ "$1" = "-d" ]; then
+    echo disable_vfs
+else
+    usage
+fi
