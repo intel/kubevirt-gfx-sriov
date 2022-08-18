@@ -5,8 +5,11 @@ ROOT_PATH="/sys/bus/pci/devices"
 enable_vfs()
 {
     for pcidev in $ROOT_PATH/*; do
-        if [ -d $pcidev ] && [ -f $pcidev/sriov_totalvfs ] &&
-           [ -f $pcidev/sriov_numvfs ]; then
+        # Class Code: 0x03 - Display Controller
+        if [ -d "$pcidev" ] && [ -f "$pcidev/class" ] &&
+           [ "$(cat $pcidev/class | cut -c 3-4)" = "03" ] &&
+           [ -f "$pcidev/sriov_totalvfs" ] &&
+           [ -f "$pcidev/sriov_numvfs" ]; then
             enable_pcidev_vfs $pcidev
         fi
     done
@@ -17,13 +20,13 @@ enable_pcidev_vfs()
     pcidev=$1
 
     totalvfs=$(cat $pcidev/sriov_totalvfs)
-    if [ $totalvfs -eq 0 ]; then 
+    if [ "$totalvfs" -eq 0 ]; then
         echo "Total number of VF is 0. Nothing to do"
         return 0
     fi
 
     numvfs=$(cat $pcidev/sriov_numvfs)
-    if [ $numvfs -ne 0 ]; then 
+    if [ "$numvfs" -ne 0 ]; then
         echo "VF already enabled: $numvfs. Nothing to do"
         return 0
     fi
@@ -52,8 +55,10 @@ enable_pcidev_vfs()
 disable_vfs()
 {
     for pcidev in $ROOT_PATH/*; do
-        if [ -d $pcidev ] && [ -f $pcidev/sriov_totalvfs ] &&
-           [ -f $pcidev/sriov_numvfs ]; then
+        if [ -d "$pcidev" ] && [ -f "$pcidev/class" ] &&
+           [ "$(cat $pcidev/class | cut -c 3-4)" = "03" ] &&
+           [ -f "$pcidev/sriov_totalvfs" ] &&
+           [ -f "$pcidev/sriov_numvfs" ]; then
             disable_pcidev_vfs $pcidev
         fi
     done
@@ -64,7 +69,7 @@ disable_pcidev_vfs()
     pcidev=$1
 
     numvfs=$(cat $pcidev/sriov_numvfs)
-    if [ $numvfs -eq 0 ]; then 
+    if [ "$numvfs" -eq 0 ]; then
         echo "Number of VF enabled is 0. Nothing to do"
         return 0
     fi
@@ -73,7 +78,7 @@ disable_pcidev_vfs()
     dbd=$(printf $pcidev | awk -F'[/.]' '{print $6}')
 
     index=1
-    while [ $index -le $numvfs ]; do
+    while [ "$index" -le "$numvfs" ]; do
         echo "$dbd.$index" > /sys/bus/pci/drivers/vfio-pci/unbind
         index=$(( $index + 1 ))
     done
