@@ -5,11 +5,11 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 30Gi
+    storage: 50Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/var/vm/images/ubuntu21"
+    path: "/var/vm/images/ubuntu22"
 
 ---
 apiVersion: v1
@@ -22,7 +22,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 30Gi
+      storage: 50Gi
 
 ---
 apiVersion: v1

@@ -5,11 +5,11 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 30Gi
+    storage: 50Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/var/vm/images/ubuntu21"
+    path: "/var/vm/images/ubuntu22"
 
 ---
 apiVersion: v1
@@ -22,7 +22,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 30Gi
+      storage: 50Gi
 
 ---
 apiVersion: v1
@@ -58,9 +58,9 @@ spec:
           cores: 4
           model: host-passthrough
         memory:
-          guest: "2G"
+          guest: "4G"
         devices:
-          #autoattachGraphicsDevice: false
+          autoattachGraphicsDevice: true
           disks:
           - name: cdromiso
             bootOrder: 2
@@ -92,11 +92,12 @@ spec:
       volumes:
       - name: cdromiso
         containerDisk:
-          image: huichuno/ubuntu21-iso-containerdisk
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/ubuntu22-iso-containerdisk
+          imagePullPolicy: IfNotPresent
       - name: bootdisk
         persistentVolumeClaim:
           claimName: linuxbootdisk
       - name: linuxutil
         containerDisk:
-          image: huichuno/linuxutil-iso-containerdisk
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/linuxutil-iso-containerdisk
           imagePullPolicy: IfNotPresent
