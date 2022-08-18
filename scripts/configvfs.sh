@@ -1,69 +1,91 @@
-#!/bin/bash
+#!/bin/sh
 
-IGPU_PCIDEV_PATH="/sys/bus/pci/devices/0000:00:02.0"
+ROOT_PATH="/sys/bus/pci/devices"
 
 enable_vfs()
 {
-    if [ ! -f $IGPU_PCIDEV_PATH/sriov_totalvfs ]; then
-        echo "System doesn't support Graphics SR-IOV"
-        exit 1
-    fi
+    for pcidev in $ROOT_PATH/*; do
+        if [ -d $pcidev ] && [ -f $pcidev/sriov_totalvfs ] &&
+           [ -f $pcidev/sriov_numvfs ]; then
+            enable_pcidev_vfs $pcidev
+        fi
+    done
+}
 
-    totalvfs=$(cat $IGPU_PCIDEV_PATH/sriov_totalvfs)
+enable_pcidev_vfs()
+{
+    pcidev=$1
+
+    totalvfs=$(cat $pcidev/sriov_totalvfs)
     if [ $totalvfs -eq 0 ]; then 
         echo "Total number of VF is 0. Nothing to do"
-        exit 1
+        return 0
     fi
 
-    numvfs=$(cat $IGPU_PCIDEV_PATH/sriov_numvfs)
+    numvfs=$(cat $pcidev/sriov_numvfs)
     if [ $numvfs -ne 0 ]; then 
         echo "VF already enabled: $numvfs. Nothing to do"
-        exit 1
+        return 0
     fi
 
+    echo "Device: $pcidev"
     echo "Total VF: $totalvfs"
 
     modprobe i2c-algo-bit
     modprobe video
     modprobe vfio-pci
 
-    echo '0' > $IGPU_PCIDEV_PATH/sriov_drivers_autoprobe
-    echo $totalvfs > /sys/class/drm/card0/device/sriov_numvfs
-    echo '1' > $IGPU_PCIDEV_PATH/sriov_drivers_autoprobe
+    echo '0' > $pcidev/sriov_drivers_autoprobe
+    echo $totalvfs > $pcidev/sriov_numvfs
+    echo '1' > $pcidev/sriov_drivers_autoprobe
 
-    vendor=$(cat $IGPU_PCIDEV_PATH/vendor)
-    device=$(cat $IGPU_PCIDEV_PATH/device)
+    vendor=$(cat $pcidev/vendor)
+    device=$(cat $pcidev/device)
 
     echo "ID: $vendor $device"
     echo "$vendor $device" > /sys/bus/pci/drivers/vfio-pci/new_id
 
-    numvfs=$(cat $IGPU_PCIDEV_PATH/sriov_numvfs)
+    numvfs=$(cat $pcidev/sriov_numvfs)
     echo "VF enabled: $numvfs"
 }
 
 disable_vfs()
 {
-    numvfs=$(cat $IGPU_PCIDEV_PATH/sriov_numvfs)
+    for pcidev in $ROOT_PATH/*; do
+        if [ -d $pcidev ] && [ -f $pcidev/sriov_totalvfs ] &&
+           [ -f $pcidev/sriov_numvfs ]; then
+            disable_pcidev_vfs $pcidev
+        fi
+    done
+}
 
+disable_pcidev_vfs()
+{
+    pcidev=$1
+
+    numvfs=$(cat $pcidev/sriov_numvfs)
     if [ $numvfs -eq 0 ]; then 
         echo "Number of VF enabled is 0. Nothing to do"
-        exit 1
+        return 0
     fi
+
+    # extract DDDD:BB:DD from /sys/bus/pci/devices/DDDD:BB:DD.F
+    dbd=$(printf $pcidev | awk -F'[/.]' '{print $6}')
 
     index=1
     while [ $index -le $numvfs ]; do
-        echo 0000\:00\:02.$index > /sys/bus/pci/drivers/vfio-pci/unbind
+        echo "$dbd.$index" > /sys/bus/pci/drivers/vfio-pci/unbind
         index=$(( $index + 1 ))
     done
 
-    vendor=$(cat $IGPU_PCIDEV_PATH/vendor)
-    device=$(cat $IGPU_PCIDEV_PATH/device)
+    vendor=$(cat $pcidev/vendor)
+    device=$(cat $pcidev/device)
     echo "$vendor $device" > /sys/bus/pci/drivers/vfio-pci/remove_id
+    echo '0' > $pcidev/sriov_numvfs
 
-    echo '0' > $IGPU_PCIDEV_PATH/sriov_drivers_autoprobe
-    echo '0' > /sys/class/drm/card0/device/sriov_numvfs
-    echo '1' > $IGPU_PCIDEV_PATH/sriov_drivers_autoprobe
-    echo "VF disabled: $numvfs"
+    numvfs=$(cat $pcidev/sriov_numvfs)
+    echo "Device: $pcidev"
+    echo "VF enabled: $numvfs"
 }
 
 usage() 
@@ -76,9 +98,9 @@ usage()
 }
 
 if [ "$1" = "-e" ]; then
-    echo enable_vfs
+    enable_vfs
 elif [ "$1" = "-d" ]; then
-    echo disable_vfs
+    disable_vfs
 else
     usage
 fi
