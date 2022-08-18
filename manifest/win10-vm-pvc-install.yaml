@@ -77,7 +77,7 @@ spec:
         memory:
           guest: "4G"
         devices:
-          # autoattachGraphicsDevice: false
+          autoattachGraphicsDevice: true
           disks:
           - name: cdromiso
             bootOrder: 2
@@ -96,7 +96,7 @@ spec:
             cdrom:
               bus: sata
               readonly: true
-          autoattachPodInterface: True
+          autoattachPodInterface: true
           interfaces:
           - name: default
             masquerade: {}
@@ -113,14 +113,16 @@ spec:
       volumes:
       - name: cdromiso
         containerDisk:
-          image: huichuno/win10-iso-containerdisk
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/win10-iso-containerdisk
+          imagePullPolicy: IfNotPresent
       - name: bootdisk
         persistentVolumeClaim:
           claimName: winbootdisk
       - containerDisk:
-          image: kubevirt/virtio-container-disk
+          image: docker.io/kubevirt/virtio-container-disk
+          imagePullPolicy: IfNotPresent
         name: virtiocontainerdisk
       - name: winutil
         containerDisk:
-          image: huichuno/winutil-iso-containerdisk
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/winutil-iso-containerdisk
           imagePullPolicy: IfNotPresent

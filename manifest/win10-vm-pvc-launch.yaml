@@ -77,7 +77,7 @@ spec:
         memory:
           guest: "6G"
         devices:
-          autoattachGraphicsDevice: false
+          autoattachGraphicsDevice: true
           gpus:
           - name: igpu
             deviceName: intel.com/sriov-gpudevice
@@ -104,4 +104,3 @@ spec:
       - name: bootdisk
         persistentVolumeClaim:
           claimName: winbootdisk
-
