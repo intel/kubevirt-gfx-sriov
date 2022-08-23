@@ -1,23 +1,23 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: vm-cdisk-win10-ssh
+  name: win10-cdisk-ssh
   namespace: default
 spec:
   ports:
-    - name: vm-cdisk-win10-ssh
+    - name: win10-cdisk-ssh
       protocol: TCP
       port: 22
       targetPort: 22
   selector:
-    kubevirt.io/name: vm-cdisk-win10
+    kubevirt.io/name: win10-cdisk
   type: NodePort
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: vm-win10-rdp
+  name: vm-rdp
   namespace: default
 spec:
   ports:
@@ -26,7 +26,7 @@ spec:
       protocol: TCP
       targetPort: 3389
   selector:
-    kubevirt.io/name: vm-cdisk-win10
+    kubevirt.io/name: win10-cdisk
   externalTrafficPolicy: Cluster
   type: LoadBalancer
 
@@ -34,14 +34,14 @@ spec:
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: vm-cdisk-win10
+  name: win10-cdisk
   namespace: default
 spec:
   running: true
   template:
     metadata:
       labels:
-        kubevirt.io/name: vm-cdisk-win10
+        kubevirt.io/name: win10-cdisk
     spec:
       domain:
         cpu:

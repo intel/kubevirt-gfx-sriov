@@ -28,23 +28,23 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: vm-win10-ssh
+  name: win10-pvc-ssh
   namespace: default
 spec:
   ports:
-    - name: vm-win10-ssh
+    - name: win10-pvc-ssh
       protocol: TCP
       port: 22
       targetPort: 22
   selector:
-    kubevirt.io/name: vm-pvc-win10
+    kubevirt.io/name: win10-pvc
   type: NodePort
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: vm-win10-rdp
+  name: vm-rdp
   namespace: default
 spec:
   ports:
@@ -53,7 +53,7 @@ spec:
       protocol: TCP
       targetPort: 3389
   selector:
-    kubevirt.io/name: vm-pvc-win10
+    kubevirt.io/name: win10-pvc
   externalTrafficPolicy: Cluster
   type: LoadBalancer
 
@@ -61,14 +61,14 @@ spec:
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: vm-pvc-win10
+  name: win10-pvc
   namespace: default
 spec:
   running: true
   template:
     metadata:
       labels:
-        kubevirt.io/name: vm-pvc-win10
+        kubevirt.io/name: win10-pvc
     spec:
       domain:
         cpu:
