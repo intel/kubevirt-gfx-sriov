@@ -50,7 +50,7 @@ spec:
         memory:
           guest: "4G"
         devices:
-          autoattachGraphicsDevice: true
+          # autoattachGraphicsDevice: true
           gpus:
           - name: igpu
             deviceName: intel.com/sriov-gpudevice

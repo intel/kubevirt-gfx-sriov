@@ -28,30 +28,47 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: vm-ubuntu-ssh
+  name: ubuntu22-pvc-ssh
   namespace: default
 spec:
   ports:
-    - name: vm-ubuntu-ssh
+    - name: ubuntu22-pvc-ssh
       protocol: TCP
       port: 22
       targetPort: 22
   selector:
-    kubevirt.io/name: vm-pvc-ubuntu
+    kubevirt.io/name: ubuntu22-pvc
   type: NodePort
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vm-rdp
+  namespace: default
+spec:
+  ports:
+    - port: 3389
+      name: rdp
+      protocol: TCP
+      targetPort: 3389
+  selector:
+    kubevirt.io/name: ubuntu22-pvc
+  externalTrafficPolicy: Cluster
+  type: LoadBalancer
 
 ---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: vm-pvc-ubuntu
+  name: ubuntu22-pvc
   namespace: default
 spec:
   running: true
   template:
     metadata:
       labels:
-        kubevirt.io/name: vm-pvc-ubuntu
+        kubevirt.io/name: ubuntu22-pvc
     spec:
       domain:
         cpu:
@@ -60,7 +77,7 @@ spec:
         memory:
           guest: "4G"
         devices:
-          # autoattachGraphicsDevice: false
+          # autoattachGraphicsDevice: true
           gpus:
           - name: igpu
             deviceName: intel.com/sriov-gpudevice
@@ -69,7 +86,7 @@ spec:
             bootOrder: 1
             disk:
               bus: virtio
-          autoattachPodInterface: True
+          autoattachPodInterface: true
           interfaces:
           - name: default
             masquerade: {}
