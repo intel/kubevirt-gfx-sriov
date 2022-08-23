@@ -86,7 +86,7 @@ spec:
             bootOrder: 1
             disk:
               bus: virtio
-          autoattachPodInterface: True
+          autoattachPodInterface: true
           interfaces:
           - name: default
             masquerade: {}
