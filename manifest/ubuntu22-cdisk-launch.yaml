@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ubuntu22-cdisk-ssh
+  namespace: default
+spec:
+  ports:
+    - name: ubuntu22-cdisk-ssh
+      protocol: TCP
+      port: 22
+      targetPort: 22
+  selector:
+    kubevirt.io/name: ubuntu22-cdisk
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vm-rdp
+  namespace: default
+spec:
+  ports:
+    - port: 3389
+      name: rdp
+      protocol: TCP
+      targetPort: 3389
+  selector:
+    kubevirt.io/name: ubuntu22-cdisk
+  externalTrafficPolicy: Cluster
+  type: LoadBalancer
+
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: ubuntu22-cdisk
+  namespace: default
+spec:
+  running: true
+  template:
+    metadata:
+      labels:
+        kubevirt.io/name: ubuntu22-cdisk
+    spec:
+      domain:
+        cpu:
+          cores: 4
+          model: host-passthrough
+        memory:
+          guest: "4G"
+        devices:
+          autoattachGraphicsDevice: true
+          gpus:
+          - name: igpu
+            deviceName: intel.com/sriov-gpudevice
+          disks:
+          - name: bootdisk
+            disk:
+              bus: virtio
+          autoattachPodInterface: true
+          interfaces:
+          - name: default
+            masquerade: {}
+        machine:
+          type: q35
+        firmware:
+          bootloader:
+            efi:
+              secureBoot: false
+      terminationGracePeriodSeconds: 0
+      networks:
+      - name: default
+        pod: {}
+      volumes:
+      - name: bootdisk
+        containerDisk:
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/ubuntu22-img:latest
+          imagePullPolicy: IfNotPresent
