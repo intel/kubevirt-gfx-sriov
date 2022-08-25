@@ -3,7 +3,7 @@
 KV_VERSION="v0.53.0"
 CDI_VERSION="v1.48.1"
 KUBECONFIG_PATH="/etc/rancher/k3s/k3s.yaml"
-KREW_PATH="/home/${USER}/.krew/bin"
+KREW_PATH="/home/$USER/.krew/bin"
 
 # helper functions
 info()
@@ -61,16 +61,13 @@ conf_k3s()
   if [[ $found -eq 0 ]]; then
     echo "export KUBECONFIG=${KUBECONFIG_PATH}" >> ~/.bashrc
   fi
-
-  alias k=kubectl
-  export KUBECONFIG="${KUBECONFIG_PATH}"
 }
 
 unconf_k3s()
 {
   info "Undo K3s and kubectl configuration"
   temp=$(mktemp)
-  cat ~/.bashrc | grep -v "source <(kubectl completion bash)" | grep -v "alias k=kubectl" | grep -v "complete -F __start_kubectl k" | grep -v "export KUBECONFIG=${KUBECONFIG_PATH}" > ${temp} && cp ${temp} ~/.bashrc
+  cat ~/.bashrc | grep -v "source <(kubectl completion bash)" | grep -v "alias k=kubectl" | grep -v "complete -F __start_kubectl k" | grep -v "export KUBECONFIG=${KUBECONFIG_PATH}" > $temp && cp $temp ~/.bashrc
 }
 
 install_kubevirt()
@@ -128,21 +125,17 @@ conf_krew()
 {
   info "Configuring krew"
 
-  found=$(grep -w "${KREW_PATH}" ~/.bashrc 2> /dev/null | wc -l)
-  if [ ${found} -eq 0 ]; then
-    sed -i "s%export PATH=.*%export PATH=\"${PATH}:${KREW_PATH}\"%g" ~/.bashrc
+  found=$(grep -x "export PATH=\$PATH:$KREW_PATH" ~/.bashrc 2> /dev/null | wc -l)
+  if [[ $found -eq 0 ]]; then
+    echo "export PATH=\$PATH:$KREW_PATH" >> ~/.bashrc
   fi
-  export PATH="${PATH}:${KREW_PATH}"
 }
 
 unconf_krew()
 {
   info "Undo krew configuration"
-
-  found=$(grep -w "${KREW_PATH}" ~/.bashrc 2> /dev/null | wc -l)
-  if [ ${found} -ne 0 ]; then
-    sed -i "s%:${KREW_PATH}%""%g" ~/.bashrc
-  fi
+  temp=$(mktemp)
+  cat ~/.bashrc | grep -v "export PATH=\$PATH:$KREW_PATH" > $temp && cp $temp ~/.bashrc
 }
 
 install_virt_plugin()
@@ -197,14 +190,14 @@ clear
 
 # determine option entered
 while getopts "i:u:hf" opt; do
-  case "${opt}" in
+  case "$opt" in
     i)
       OPT_INSTALL=true
-      OPT_ARG=${OPTARG}
+      OPT_ARG=$OPTARG
       ;;
     u)
       OPT_UNINSTALL=true
-      OPT_ARG=${OPTARG}
+      OPT_ARG=$OPTARG
       ;;
     h | *)
       usage
@@ -214,7 +207,7 @@ while getopts "i:u:hf" opt; do
 done
 
 # only one option allowed at a time
-if [ "${OPT_INSTALL}" = true ] && [ "${OPT_UNINSTALL}" = true ]; then
+if [[ $OPT_INSTALL = true && $OPT_UNINSTALL = true ]]; then
   echo "$0: illegal to specify more than one option"
   usage
   exit 1
@@ -222,7 +215,7 @@ fi
 
 # determine option arguments entered
 index=0
-while [ ${index} -lt ${#OPT_ARG} ]; do
+while [[ $index -lt ${#OPT_ARG} ]]; do
   case "${OPT_ARG:$index:1}" in
     k)
       OPT_ARG_K3S=true
@@ -234,16 +227,16 @@ while [ ${index} -lt ${#OPT_ARG} ]; do
       OPT_ARG_KREW=true
       ;;
     *)
-      echo "$0: invalid argument -- ${OPT_ARG:${index}:1}"
+      echo "$0: invalid argument -- ${OPT_ARG:$index:1}"
       usage
       exit 1
       ;;
   esac
-  index=$(( ${index} + 1 ))
+  index=$(( $index + 1 ))
 done
 
 # Option: install
-if [ "${OPT_INSTALL}" = true ] && [ "${OPT_ARG_K3S}" = true ]; then
+if [[ $OPT_INSTALL = true && $OPT_ARG_K3S = true ]]; then
   if command_exists k3s; then
     warn 'The "k3s" command appears to already exist on this system'
     warn 'Skip "k3s" installation'
@@ -254,7 +247,7 @@ if [ "${OPT_INSTALL}" = true ] && [ "${OPT_ARG_K3S}" = true ]; then
   fi
 fi
 
-if [ "${OPT_INSTALL}" = true ] && [ "${OPT_ARG_KUBEVIRT}" = true ]; then
+if [[ $OPT_INSTALL = true && $OPT_ARG_KUBEVIRT = true ]]; then
   if command_exists kubectl; then
     install_kubevirt
     install_cdi
@@ -263,7 +256,7 @@ if [ "${OPT_INSTALL}" = true ] && [ "${OPT_ARG_KUBEVIRT}" = true ]; then
   fi
 fi
 
-if [ "${OPT_INSTALL}" = true ] && [ "${OPT_ARG_KREW}" = true ]; then
+if [[ $OPT_INSTALL = true && $OPT_ARG_KREW = true ]]; then
   if command_exists kubectl; then
     install_krew
     conf_krew
@@ -274,7 +267,7 @@ if [ "${OPT_INSTALL}" = true ] && [ "${OPT_ARG_KREW}" = true ]; then
 fi
 
 # Option: uninstall
-if [ "${OPT_UNINSTALL}" = true ] && [ "${OPT_ARG_KREW}" = true ]; then
+if [[ $OPT_UNINSTALL = true && $OPT_ARG_KREW = true ]]; then
   if command_exists kubectl; then
     uninstall_virt_plugin
     uninstall_krew
@@ -285,7 +278,7 @@ if [ "${OPT_UNINSTALL}" = true ] && [ "${OPT_ARG_KREW}" = true ]; then
   fi
 fi
 
-if [ "${OPT_UNINSTALL}" = true ] && [ "${OPT_ARG_KUBEVIRT}" = true ]; then
+if [[ $OPT_UNINSTALL = true && $OPT_ARG_KUBEVIRT = true ]]; then
   if command_exists kubectl; then
     uninstall_cdi
     uninstall_kubevirt
@@ -295,7 +288,7 @@ if [ "${OPT_UNINSTALL}" = true ] && [ "${OPT_ARG_KUBEVIRT}" = true ]; then
   fi
 fi
 
-if [ "${OPT_UNINSTALL}" = true ] && [ "${OPT_ARG_K3S}" = true ]; then
+if [[ $OPT_UNINSTALL = true && $OPT_ARG_K3S = true ]]; then
   if command_exists k3s; then
     become_superuser
     uninstall_k3s
