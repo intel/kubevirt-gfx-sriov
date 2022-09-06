@@ -4,7 +4,7 @@
   <h3 align="center">KubeVirt Graphics SR-IOV</h3>
 
   <p align="center">
-    project_description
+    This project contains the software components and ingredients to enable Intel's graphics virtualization technology (Graphics SR-IOV) on cloud/edge-native infrastructure. The aim is deliver GPU-accelerated workloads capability to virtual machines running on Kubernetes cluster. 
     <br />
     <a href="https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov"><strong>Explore the docs »</strong></a>
     <br />
@@ -45,7 +45,7 @@
 
 [![Product Name Screen Shot][product-screenshot]]
 
-Here's a blank template to get started..
+This repository contains the collection of scripts, manifests and documentation to enable Graphics SR-IOV (`GFX SR-IOV`) for cloud/edge-native application. [KubeVirt](https://github.com/kubevirt/kubevirt) is the main open source project that we leverages to manage Virtual Machines (VMs) and the GFX SR-IOV resources on the host.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
