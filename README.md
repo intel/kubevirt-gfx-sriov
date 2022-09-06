@@ -45,7 +45,7 @@
 
 [![Product Name Screen Shot][product-screenshot]]
 
-This repository contains the collection of scripts, manifests and documentation to enable Graphics SR-IOV (`GFX SR-IOV`) for cloud/edge-native application. [KubeVirt](https://github.com/kubevirt/kubevirt) is the main open source project that we leverages to manage Virtual Machines (VMs) and the GFX SR-IOV resources on the host.
+This repository contains the collection of scripts, manifests and documentation to enable `Graphics SR-IOV` for cloud/edge-native application. [KubeVirt](https://github.com/kubevirt/kubevirt) is the main open source project that we leverages to manage Virtual Machines (VMs) and the Graphics SR-IOV resources on the host.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -54,16 +54,15 @@ This repository contains the collection of scripts, manifests and documentation 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+Graphics SR-IOV technology is supported on the following Intel products:
+* 12th generation Intel Core `embedded` processors (Alder Lake)
+* Data Center GPU Flex series (Artic Sound)
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+The following is required:
+* [Ubuntu 22.04 LTS](https://releases.ubuntu.com/22.04/)
+
 
 ### Installation
 
