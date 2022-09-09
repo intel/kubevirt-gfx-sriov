@@ -1,6 +1,5 @@
 [Unit]
-Description=Intel Integrated Graphics SR-IOV Virtual Function Manager
-ConditionPathExists=/sys/bus/pci/devices/0000:00:02.0/sriov_totalvfs
+Description=Intel Graphics SR-IOV Virtual Function Manager
 ConditionPathExists=/var/vm/scripts/configvfs.sh
 
 [Service]
