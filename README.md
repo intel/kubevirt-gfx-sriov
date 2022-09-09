@@ -46,7 +46,7 @@
 
 [![Product Name Screen Shot][product-screenshot]]
 
-This repository contains the collection of scripts, manifests and documentation to enable `Graphics SR-IOV` for cloud/edge-native application development. [KubeVirt](https://github.com/kubevirt/kubevirt) is the main component used to manage Virtual Machines (VMs) and the Graphics SR-IOV resources on the host.
+This repository contains the collection of scripts, manifests and documentation to enable **Graphics SR-IOV** for cloud/edge-native application development. [KubeVirt](https://github.com/kubevirt/kubevirt) is the main component used to manage Virtual Machines (VMs) and the Graphics SR-IOV resources on the host.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -56,7 +56,7 @@ This repository contains the collection of scripts, manifests and documentation 
 ## Getting Started
 
 Access to appropriate hardware and drivers is required for the setup. Graphics SR-IOV technology is supported on the following Intel products:
-* 12th Generation Intel Core `embedded` processors (Alder Lake)
+* 12th Generation Intel Core ***embedded*** processors (Alder Lake)
 * Data Center GPU Flex series (Artic Sound)
 
 ### Prerequisites
@@ -72,23 +72,23 @@ The following is required:
    
    cd applications.virtualization.kubevirt-gfx-sriov
    ```
-2. Add additional access to AppArmor libvirtd profile. This step is only required if the host OS comes with AppArmor profile that is preventing KubeVirt operation. See [issue](https://github.com/kubevirt/kubevirt/issues/7473) for more detail.
+2. Add additional access to AppArmor libvirtd profile. This step is only required if the host OS (eg: Ubuntu) comes with AppArmor profile that is preventing KubeVirt operation. See [issue](https://github.com/kubevirt/kubevirt/issues/7473) for more detail.
    ```sh   
    sudo cp apparmor/usr.sbin.libvirtd /etc/apparmor.d/local/
    
    sudo systemctl reload apparmor.service
    ```
-3. Install `K3s`. This step is only required if you don't already have a Kubernetes cluster setup. 
+3. Install **K3s**. This step will setup a single node cluster where the host function as both the server/control plane and the worker node. This step is only required if you don't already have a Kubernetes cluster setup that you can use. 
 
-   *Note: K3s is being used here because it's lightweight and quick to setup up* 
+   *Note: K3s is a lightweight Kubernetes distribution suitable for Edge and IoT use cases.
    ```sh
    ./scripts/setuptools.sh -ik
    ```
-4. Install `KubeVirt` and `CDI`
+4. Install **KubeVirt** and **CDI**
    ```sh
    ./scripts/setuptools.sh -iv
    ```
-5. Install `Krew` and `virt-plugin`
+5. Install **Krew** and **virt-plugin**
 
    *Note: Get help on `setuptools.sh` by running `setupstool.sh -h`*
    ```sh
@@ -96,16 +96,39 @@ The following is required:
    ```
 6. After installation is completed, log out and log back in. Check K3s and KubeVirt have been  successfully setup and deployed 
 
-   *Note: It might takes a few minutes*
+   *Note: It might takes a few minutes for KubeVirt to completely deployed*
    ```sh
    kubectl get nodes
 
    kubectl get kubevirt -n kubevirt
-   ``` 
+   ```
+7. Add systemd service unit file to enable graphics VFs on boot
+   ```sh
+   sudo mkdir -p /var/vm/scripts
 
-### Uninstallation
+   sudo cp scripts/configvfs.sh /var/vm/scripts/
 
-1. To uninstall all components you can run command below or you can specify which component to uninstall. Get help on `setuptools.sh` by running `setupstool.sh -h`
+   sudo chmod +x /var/vm/scripts/configvfs.sh
+
+   sudo cp systemd/gfx-virtual-func.service /etc/systemd/system/
+
+   sudo systemctl daemon-reload
+
+   sudo systemctl start gfx-virtual-func.service
+
+   sudo systemctl enable gfx-virtual-func.service
+
+   sudo reboot
+   ```  
+8. Check gfx-virtual-func.service ran the configvfs script on boot as expected
+   ```sh
+   systemctl status gfx-virtual-func.service
+   ```
+### Uninstall
+
+1. To uninstall all components you can run command below or you can specify which component to uninstall. 
+
+   *Note: Get help on `setuptools.sh` by running `setupstool.sh -h`*
    ```sh
    ./scripts/setuptools.sh -u kvw
    ``` 
