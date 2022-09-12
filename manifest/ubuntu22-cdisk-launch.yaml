@@ -1,50 +1,23 @@
-apiVersion: v1 
-kind: PersistentVolume
-metadata:
-  name: pv-volume-win10
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 30Gi  
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/var/vm/images/win10"
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: winbootdisk
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 30Gi
-
----
 apiVersion: v1
 kind: Service
 metadata:
-  name: vm-win10-ssh
+  name: ubuntu22-cdisk-ssh
   namespace: default
 spec:
   ports:
-    - name: vm-win10-ssh
+    - name: ubuntu22-cdisk-ssh
       protocol: TCP
       port: 22
       targetPort: 22
   selector:
-    kubevirt.io/name: vm-pvc-win10
+    kubevirt.io/name: ubuntu22-cdisk
   type: NodePort
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: vm-win10-rdp
+  name: vm-rdp
   namespace: default
 spec:
   ports:
@@ -53,7 +26,7 @@ spec:
       protocol: TCP
       targetPort: 3389
   selector:
-    kubevirt.io/name: vm-pvc-win10
+    kubevirt.io/name: ubuntu22-cdisk
   externalTrafficPolicy: Cluster
   type: LoadBalancer
 
@@ -61,32 +34,31 @@ spec:
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
-  name: vm-pvc-win10
+  name: ubuntu22-cdisk
   namespace: default
 spec:
   running: true
   template:
     metadata:
       labels:
-        kubevirt.io/name: vm-pvc-win10
+        kubevirt.io/name: ubuntu22-cdisk
     spec:
       domain:
         cpu:
           cores: 4
           model: host-passthrough
         memory:
-          guest: "6G"
+          guest: "4G"
         devices:
-          autoattachGraphicsDevice: true
+          # autoattachGraphicsDevice: true
           gpus:
           - name: igpu
             deviceName: intel.com/sriov-gpudevice
           disks:
           - name: bootdisk
-            bootOrder: 1
             disk:
               bus: virtio
-          autoattachPodInterface: True
+          autoattachPodInterface: true
           interfaces:
           - name: default
             masquerade: {}
@@ -102,5 +74,6 @@ spec:
         pod: {}
       volumes:
       - name: bootdisk
-        persistentVolumeClaim:
-          claimName: winbootdisk
+        containerDisk:
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/ubuntu22-img:latest
+          imagePullPolicy: IfNotPresent
