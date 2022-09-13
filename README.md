@@ -57,12 +57,14 @@ This repository contains the collection of scripts, manifests and documentation 
 
 Access to appropriate hardware and drivers is required for the setup. Graphics SR-IOV technology is supported on the following Intel products:
 * 12th Generation Intel Core ***embedded*** processors (Alder Lake)
-* Data Center GPU Flex series (Artic Sound)
+* _Data Center GPU Flex series (Artic Sound)_
 
 ### Prerequisites
 
 The following is required:
-* A fully configured [Ubuntu 22.04 LTS](https://releases.ubuntu.com/22.04/) host with Graphics SR-IOV support
+* A working [Ubuntu 22.04 LTS](https://releases.ubuntu.com/22.04/) host
+* Configuration to enable Graphics SR-IOV support on host:
+   * [12th Generation Intel Core **embedded** processors](https://cdrdv2.intel.com/v1/dl/getContent/680834)
 
 ### Installation
 
@@ -72,7 +74,7 @@ The following is required:
    
    cd applications.virtualization.kubevirt-gfx-sriov
    ```
-2. Add additional access to AppArmor libvirtd profile. This step is only required if the host OS (eg: Ubuntu) comes with AppArmor profile that is preventing KubeVirt operation. See [issue](https://github.com/kubevirt/kubevirt/issues/7473) for more detail.
+2. Add additional access to AppArmor libvirtd profile. This step is only required if the host OS (eg: Ubuntu) comes with AppArmor profile that is preventing KubeVirt operation. See [issue](https://github.com/kubevirt/kubevirt/issues/7473) for more detail
    ```sh   
    sudo cp apparmor/usr.sbin.libvirtd /etc/apparmor.d/local/
    
@@ -83,7 +85,7 @@ The following is required:
    sudo apt install curl -y
    ```
 
-4. Install **K3s**. This step will setup a single node cluster where the host function as both the server/control plane and the worker node. This step is only required if you don't already have a Kubernetes cluster setup that you can use.
+4. Install **K3s**. This step will setup a single node cluster where the host function as both the server/control plane and the worker node. This step is only required if you don't already have a Kubernetes cluster setup that you can use
 
    *Note: K3s is a lightweight Kubernetes distribution suitable for Edge and IoT use cases.
    ```sh
@@ -99,13 +101,21 @@ The following is required:
    ```sh
    ./scripts/setuptools.sh -iw
    ```
-7. After installation is completed, log out and log back in. Check K3s and KubeVirt have been  successfully setup and deployed
+7. After installation is completed, log out and log back in. Check K3s and KubeVirt have been successfully setup and deployed
 
-   *Note: It might takes a few minutes for KubeVirt to fully deployed*
+   *Note: It might takes a few minutes for KubeVirt deployment to complete*
    ```sh
    kubectl get nodes
 
    kubectl get kubevirt -n kubevirt
+   ```
+   Output:
+   ```sh
+   NAME          STATUS   ROLES                  AGE    VERSION
+   ubuntu-host   Ready    control-plane,master   12m   v1.24.4+k3s1
+
+   NAME       AGE    PHASE
+   kubevirt   12m   Deployed
    ```
 8. Add systemd service unit file to enable graphics VFs on boot
    ```sh
@@ -125,10 +135,42 @@ The following is required:
 
    sudo reboot
    ```  
-9. Check gfx-virtual-func.service has ran the configvfs script on boot as expected
+9. Check the `configvfs.sh` log and `gfx-virtual-func.service` daemon status for any error
    ```sh
    systemctl status gfx-virtual-func.service
    ```
+   Output:
+   ```sh
+   gfx-virtual-func.service - Intel Graphics SR-IOV Virtual Function Manager
+     Loaded: loaded (/etc/systemd/system/gfx-virtual-func.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Tue 2022-09-13 14:51:19 +08; 1h 3min ago
+    Process: 930 ExecStart=/bin/bash /var/vm/scripts/configvfs.sh -e (code=exited, status=0/SUCCESS)
+   Main PID: 930 (code=exited, status=0/SUCCESS)
+        CPU: 138ms
+
+   Sep 13 14:51:18 ubuntu-host systemd[1]: Starting Intel Graphics SR-IOV Virtual Function Manager...
+   ```
+10. Update KubeVirt custom resource configuration to enable virt-handler to discover graphics VFs on the host. All discovered VFs will be published as *allocatable* resource 
+    ```sh
+    kubectl apply -f manifest/kubevirt-cf-gfx-sriov.yaml
+    ```
+11. Check for resource presence: `intel.com/sriov-gpudevices`
+    ```sh
+    kubectl describe nodes
+    ```
+    Output:
+    ```sh
+    Capacity:
+      intel.com/sriov-gpudevice:     7
+    Allocatable:
+      intel.com/sriov-gpudevice:     7
+    Allocated resources:
+      Resource                       Requests     Limits
+      --------                       --------     ------
+      intel.com/sriov-gpudevice      0            0
+    ```
+    *Note: The value of **Request** and **Limits** will change upon successful resource allocation to running pods/VMs*
+
 ### Uninstall
 
 1. To uninstall all components you can run command below or you can specify which component to uninstall. 
@@ -145,9 +187,12 @@ The following is required:
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Follow the links below for instructions on how to setup and deploy virtual machines using KubeVirt:
+### Deploy Windows Virtual Machine
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+### Deploy Linux Virtual Machine
+
+_For more examples, please refer to the [Documentation][documentation-folder]_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -169,7 +214,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- LICENSE -->
 ## License
 
-Distributed under the Apache License. See `LICENSE.txt` for more information.
+Distributed under the Apache License, Version 2.0. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -178,3 +223,4 @@ Distributed under the Apache License. See `LICENSE.txt` for more information.
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [product-screenshot]: assets/images/screenshot.png
+[documentation-folder]: docs/
