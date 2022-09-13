@@ -1,4 +1,4 @@
-# Revision History [revision-history]
+# Revision History
 
 | Revision Number | Description      | Revision Date | Edited By    |
 |-----------------|------------------|---------------|--------------|
@@ -6,43 +6,34 @@
 |                 |                  |               |              |
 |                 |                  |               |              |
 
-# Contents [contents]
+# Contents 
 
-# Contents [contents-1]
+1   [Introduction](#introduction)
 
-[1 Introduction [4](#introduction)](#introduction)
+   1.1 [Scope](#scope)
+   
+   1.2 [Purpose](#purpose)
+   
+   1.3 [Acronyms](#acronyms)
 
-[1.1 Scope [4](#scope)](#scope)
+2 [KubeVirt Graphics SR-IOV Architecture](#kubevirt-graphics-sr-iov-architecture)
 
-[1.2 Purpose [4](#purpose)](#purpose)
+   2.1 [Architecture design](#architecture-design)
 
-[1.3 Acronyms [4](#acronyms)](#acronyms)
+3 [References](#references)
 
-[2 KubeVirt Graphics SR-IOV Architecture
-[5](#kubevirt-graphics-sr-iov-architecture)](#kubevirt-graphics-sr-iov-architecture)
-
-[2.1 Architecture design
-[5](#architecture-design)](#architecture-design)
-
-[3 References [7](#references)](#references)
-
-##  [section]
+##  Section
 
 **Table of Figures**
 
-[*Figure 1 Kubevirt-Gfx-SRIOV Flow* [5](#_Toc109894013)](#_Toc109894013)
+[*Figure 1 Kubevirt-Gfx-SRIOV Flow*](#_Toc109894013)
 
-[*Figure 2 Kubevirt-Gfx-SRIOV Design*
-[5](#_Toc109894014)](#_Toc109894014)
+[*Figure 2 Kubevirt-Gfx-SRIOV Design*](#_Toc109894014)
 
-[Figure 3 Kubevirt-Gfx-SRIOV Inter-operation
-[6](#_Toc109894015)](#_Toc109894015)
+[*Figure 3 Kubevirt-Gfx-SRIOV Inter-operation](#_Toc109894015)
 
-## Tables [tables]
 
-##  [section-1]
-
-# Introduction
+## Introduction
 
 KubeVirt Graphics SR-IOV software package provides simple steps for
 cloud native graphics SR-IOV enablement.
@@ -111,11 +102,7 @@ alt="Diagram Description automatically generated" />
 <span id="_Toc109894015" class="anchor"></span>Figure 3
 Kubevirt-Gfx-SRIOV Inter-operation
 
-##  [section-2]
-
 # References
-
-##  [section-3]
 
 | Document | Document Location |
 |----------|-------------------|
