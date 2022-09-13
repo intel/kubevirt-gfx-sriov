@@ -78,31 +78,36 @@ The following is required:
    
    sudo systemctl reload apparmor.service
    ```
-3. Install **K3s**. This step will setup a single node cluster where the host function as both the server/control plane and the worker node. This step is only required if you don't already have a Kubernetes cluster setup that you can use. 
+3. Install software dependency
+   ```sh
+   sudo apt install curl -y
+   ```
+
+4. Install **K3s**. This step will setup a single node cluster where the host function as both the server/control plane and the worker node. This step is only required if you don't already have a Kubernetes cluster setup that you can use.
 
    *Note: K3s is a lightweight Kubernetes distribution suitable for Edge and IoT use cases.
    ```sh
    ./scripts/setuptools.sh -ik
    ```
-4. Install **KubeVirt** and **CDI**
+5. Install **KubeVirt** and **CDI**
    ```sh
    ./scripts/setuptools.sh -iv
    ```
-5. Install **Krew** and **virt-plugin**
+6. Install **Krew** and **virt-plugin**
 
    *Note: Get help on `setuptools.sh` by running `setupstool.sh -h`*
    ```sh
    ./scripts/setuptools.sh -iw
    ```
-6. After installation is completed, log out and log back in. Check K3s and KubeVirt have been  successfully setup and deployed 
+7. After installation is completed, log out and log back in. Check K3s and KubeVirt have been  successfully setup and deployed
 
-   *Note: It might takes a few minutes for KubeVirt to completely deployed*
+   *Note: It might takes a few minutes for KubeVirt to fully deployed*
    ```sh
    kubectl get nodes
 
    kubectl get kubevirt -n kubevirt
    ```
-7. Add systemd service unit file to enable graphics VFs on boot
+8. Add systemd service unit file to enable graphics VFs on boot
    ```sh
    sudo mkdir -p /var/vm/scripts
 
@@ -120,7 +125,7 @@ The following is required:
 
    sudo reboot
    ```  
-8. Check gfx-virtual-func.service ran the configvfs script on boot as expected
+9. Check gfx-virtual-func.service has ran the configvfs script on boot as expected
    ```sh
    systemctl status gfx-virtual-func.service
    ```
