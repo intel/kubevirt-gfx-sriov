@@ -141,13 +141,13 @@ unconf_krew()
 install_virt_plugin()
 {
   info "Installing virt plugin"
-  kubectl krew install virt
+  $KREW_PATH/kubectl-krew install virt
 }
 
 uninstall_virt_plugin()
 {
   info "Uninstalling virt plugin"
-  kubectl krew uninstall virt
+  $KREW_PATH/kubectl-krew uninstall virt
 }
 
 command_exists()
