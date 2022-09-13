@@ -56,7 +56,7 @@ This repository contains the collection of scripts, manifests and documentation 
 ## Getting Started
 
 Access to appropriate hardware and drivers is required for the setup. Graphics SR-IOV technology is supported on the following Intel products:
-* 12th Generation Intel Core ***embedded*** processors (Alder Lake)
+* 12th Generation Intel Core ***embedded*** processors (Alder Lake)+
 * _Data Center GPU Flex series (Artic Sound)_
 
 ### Prerequisites
@@ -150,11 +150,13 @@ The following is required:
 
    Sep 13 14:51:18 ubuntu-host systemd[1]: Starting Intel Graphics SR-IOV Virtual Function Manager...
    ```
-10. Update KubeVirt custom resource configuration to enable virt-handler to discover graphics VFs on the host. All discovered VFs will be published as *allocatable* resource 
+10. Update KubeVirt custom resource configuration to enable virt-handler to discover graphics VFs on the host. All discovered VFs will be published as *allocatable* resource
     ```sh
     kubectl apply -f manifest/kubevirt-cf-gfx-sriov.yaml
     ```
 11. Check for resource presence: `intel.com/sriov-gpudevices`
+
+    *Note: Please wait for all virt-handler pods to complete restarts using the following command: `kubectl get pods -n kubevirt`*
     ```sh
     kubectl describe nodes
     ```
@@ -169,7 +171,7 @@ The following is required:
       --------                       --------     ------
       intel.com/sriov-gpudevice      0            0
     ```
-    *Note: The value of **Request** and **Limits** will change upon successful resource allocation to running pods/VMs*
+    *Note: The value of **Request** and **Limits** will increase upon successful resource allocation to running pods/VMs*
 
 ### Uninstall
 
@@ -187,10 +189,11 @@ The following is required:
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Follow the links below for instructions on how to setup and deploy virtual machines using KubeVirt:
-### Deploy Windows Virtual Machine
+Follow the links below for instructions on how to setup and deploy virtual machines using KubeVirt
 
-### Deploy Linux Virtual Machine
+[Deploy Windows Virtual Machine][deploy-windows]
+
+[Deploy Ubuntu Virtual Machine][deploy-ubuntu]
 
 _For more examples, please refer to the [Documentation][documentation-folder]_
 
@@ -224,3 +227,5 @@ Distributed under the Apache License, Version 2.0. See `LICENSE.txt` for more in
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [product-screenshot]: assets/images/screenshot.png
 [documentation-folder]: docs/
+[deploy-windows]: docs/deploy-windows.md
+[deploy-ubuntu]: docs/deploy-ubuntu.md
