@@ -177,11 +177,13 @@ usage()
   echo "     w  : Krew, virt-plugin"
   echo "Example:"
   echo "  # Install K3s, KubeVirt, CDI, Krew, virt-plugin"
-  echo "    $0 -ikvw"
+  echo "      $0 -ikvw"
+  echo ""
   echo "  # Install Krew, virt-plugin"
-  echo "    $0 -i w"
-  echo "  # Uninstall KubeVirt, CDI"
-  echo "    $0 -uv"
+  echo "      $0 -iw"
+  echo ""
+  echo "  # Uninstall K3s, KubeVirt, CDI, Krew, virt-plugin"
+  echo "      $0 -ukvw"
   echo ""
 }
 
