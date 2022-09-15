@@ -74,7 +74,7 @@ and bash script files. The YAML files that are needed to configure the
 virtual environment running on Kubernetes cluster. The bash script files
 provided are for graphic SR-IOV enablement and Kubernetes cluster setup.
 
-<img src="media/KubeVirt Graphics SR-IOV/media/image2.PNG"
+<img src="media/image2.PNG"
 style="width:5.97285in;height:2.04in" />
 
 <span id="_Toc109894013" class="anchor"></span>*Figure 1
@@ -86,7 +86,7 @@ installation of virtual machine environment and graphic SR-IOV
 enablement. The YAML files consist of configuration for virtual
 environment and graphic SR-IOV configuration.
 
-<img src="media/KubeVirt Graphics SR-IOV/media/image3.PNG"
+<img src="media/image3.PNG"
 style="width:6.40527in;height:2.248in"
 alt="Diagram Description automatically generated" />
 
@@ -95,7 +95,7 @@ Kubevirt-Gfx-SRIOV Design*
 
 The following diagram shows the inter-op of each component:
 
-<img src="media/KubeVirt Graphics SR-IOV/media/image4.PNG"
+<img src="media/image4.PNG"
 style="width:6.39514in;height:2.54236in"
 alt="Diagram Description automatically generated" />
 
