@@ -92,7 +92,7 @@ Proceed with the VM installation steps below:
 
 4. Launch a web browser on the host and navigate to the url below. Press the ***VNC*** button to initiate VNC session to the VM
 
-   *Note: Both the CLUSTER-IP and EXTERNAL-IP will work*
+   *Note: Both the CLUSTER-IP and EXTERNAL-IP will work. You can also change the namespace value to reflect your VM's namespace*
 
    ```sh
    http://<EXTERNAL-IP>:8001/?namespace=default
@@ -156,7 +156,7 @@ Proceed with the VM installation steps below:
     ssh <user>@<CLISTER-IP>
     ```
 
-11. Shutdown the Windows VM and run the following command to stop the *win10-vm* Virtual Machine resource to prepare for the **Deployment** stage
+11. Shutdown the Windows VM and run the following command to stop the *win10-vm* Virtual Machine resource before moving to **Deployment** stage
 
     ```sh
     kubectl virt stop win10-vm
@@ -181,7 +181,7 @@ Proceed with the VM installation steps below:
    ```
 2. Unzip and execute Intel Graphics Driver installer on the Windows desktop: *Desktop\win64\Installer.exe*
 
-   *Note: The installation will take a while to complete*
+   *Note: Refer to the Installation step 9 above for the location of the Intel Graphics Driver installer. The installation process will take a while to complete*
 
    <img src=./media/gfxdrvinstall.png width="80%">
 
@@ -189,7 +189,7 @@ Proceed with the VM installation steps below:
 
    <img src=./media/gfxdrv.png width="80%">
 
-4. Congratulation, you have completed the setup. The Window VM is now ready to support GPU hardware-accelerated workloads leveraging Intel Graphics SR-IOV technology.  
+4. Congratulation! You have completed the setup
 
    *Note: You can start or stop the VM anytime using the following command: `kubectl virt start win10-vm` and `kubectl virt stop win10-vm`*
 
