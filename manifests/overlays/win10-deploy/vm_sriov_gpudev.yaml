@@ -1,0 +1,5 @@
+- op: add
+  path: /spec/template/spec/domain/devices/gpus
+  value:
+    - name: igpu
+      deviceName: intel.com/sriov-gpudevice

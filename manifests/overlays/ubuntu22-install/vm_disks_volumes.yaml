@@ -1,0 +1,36 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm
+spec:
+  template:
+    spec:
+      domain:
+        devices:
+          disks:
+          - name: bootdisk
+            bootOrder: 1
+            disk:
+              bus: virtio
+          - name: cdromiso
+            bootOrder: 2
+            cdrom:
+              bus: sata
+              readonly: true
+          - name: linuxsoftwaredrviso
+            cdrom:
+              bus: sata
+              readonly: true
+      volumes:
+      - name: bootdisk
+        persistentVolumeClaim:
+          claimName: ubuntu22-bootdisk
+          # Note: make sure clamName matches the kustomized pvc name 
+      - name: cdromiso
+        containerDisk:
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/ubuntu22-iso-containerdisk
+          imagePullPolicy: IfNotPresent
+      - name: linuxsoftwaredrviso
+        containerDisk:
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/linuxutil-iso-containerdisk
+          imagePullPolicy: IfNotPresent

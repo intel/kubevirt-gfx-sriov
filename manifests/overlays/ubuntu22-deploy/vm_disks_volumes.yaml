@@ -1,0 +1,19 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm
+spec:
+  template:
+    spec:
+      domain:
+        devices:
+          disks:
+          - name: bootdisk
+            bootOrder: 1
+            disk:
+              bus: virtio
+      volumes:
+      - name: bootdisk
+        persistentVolumeClaim:
+          claimName: ubuntu22-bootdisk
+          # Note: make sure clamName matches the kustomized pvc name 
