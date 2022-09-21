@@ -14,6 +14,7 @@ In this document, we are going explain how to install Windows 10 virtual machine
 
 
 ## Preparation
+
 Prior to installing Windows 10 VM, we'll create two *container disks* to simplify the installation process. The *container disks* will contain:
 1. Windows 10 ISO file
 
@@ -96,15 +97,17 @@ Proceed with the VM installation steps below:
    ```sh
    http://<EXTERNAL-IP>:8001/?namespace=default
    ```
-   ![virtvnc]
+   <img src=./media/virvnc.png width="80%">
 
 5. Follow the instructions on the Windows Setup menu to begin the setup process
-   ![winsetup1]
+
+   <img src=./media/winsetup1.png width="80%">
 
 6. In the event that the Windows Setup cannot find any target drive to install Windows, press ***Load driver*** and navigate to *virtio-win-x-y-z* drive -> select *viostor\w10\amd64* folder -> click *OK* to begin storage driver installation
-   ![winsetup4]
-   ![winsetup6]
-   ![winsetup7]   
+
+   <img src=./media/winsetup4.png width="80%">
+   <img src=./media/winsetup6.png width="80%">
+   <img src=./media/winsetup7.png width="80%">
 
 7. After Windows VM is successfully installed, launch VM's *Windows Device Manager* and proceed to install the corresponding virtio drivers for all the devices with missing drivers 
      * Etherner Controller > *E:\NetKVM\w10\amd64*
@@ -112,8 +115,8 @@ Proceed with the VM installation steps below:
      * PCI Simple Communication Controller > *E:\vioserial\w10\amd64*
      * SCSI Controller > *E:\vioscsi\w10\amd64*
      
-   ![winblank]
-   ![devicemgr]
+   <img src=./media/winblank.png width="80%">
+   <img src=./media/devicemgr.png width="80%">
 
 8. At this point, you have the option to enable remote desktop service on the VM to allow remote client to access the VM using RDP connection. To enable remote desktop service on the VM, go to *Settings -> Remote desktop settings -> Enable Remote Desktop*
 
@@ -133,11 +136,11 @@ Proceed with the VM installation steps below:
 
    *Note: Windows update will take about 30-40 minutes. Intel Graphics Driver installation will be carried out at later **Deployment** stage* 
 
-   ![winver2]
+   <img src=./media/winver2.png width="55%">
 
 10. [Optional] To enable OpenSSH Server on the Windows VM, launch *Apps and Features* -> *Optional features* -> *Add a feature* > type *ssh* in search window > select *OpenSSH Server* > click *Install*. After OpenSSH Server is installed, enable the service by launching *services* -> click *OpenSSH SSH Server* -> set *Startup type=Automatic* -> click *Start* & *OK*
 
-    ![sshsvc]
+    <img src=./media/sshsvc.png width="90%">
 
     On the host, run command below to get the CLUSTER-IP of the SSH service for the VM
     ```sh
@@ -166,6 +169,7 @@ Proceed with the VM installation steps below:
     win10-vm      15h   Stopped   False
     ```
 
+
 ## Deployment
 
 1. After completing the Windows VM setup, we can proceed to deploy the VM with an assigned graphics virtual function (VF) resource. This will enable GPU acceleration capability for the VM 
@@ -179,11 +183,11 @@ Proceed with the VM installation steps below:
 
    *Note: The installation will take a while to complete*
 
-   ![gfxdrvinstall]
-   
+   <img src=./media/gfxdrvinstall.png width="80%">
+
 3. Make sure Intel Graphics Driver is successfully installed
 
-   ![gfxdrv]
+   <img src=./media/gfxdrv.png width="80%">
 
 4. Congratulation, you have completed the setup. The Window VM is now ready to support GPU hardware-accelerated workloads leveraging Intel Graphics SR-IOV technology.  
 
