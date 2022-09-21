@@ -193,6 +193,7 @@ Proceed with the VM installation steps below:
 
    *Note: You can start or stop the VM anytime using the following command: `kubectl virt start win10-vm` and `kubectl virt stop win10-vm`*
 
+   <img src=./media/youtube4k1.png width="80%">
 
 [readme]: ../README.md
 [virtvnc]: ./media/virvnc.png
@@ -206,3 +207,4 @@ Proceed with the VM installation steps below:
 [sshsvc]: ./media/sshsvc.png
 [gfxdrvinstall]: ./media/gfxdrvinstall.png
 [gfxdrv]: ./media/gfxdrv.png
+[youtube4k1]: ./media/youtube4k1.png
