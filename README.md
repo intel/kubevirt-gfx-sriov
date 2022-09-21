@@ -74,12 +74,14 @@ The following is required:
    
    cd applications.virtualization.kubevirt-gfx-sriov
    ```
+
 2. Add additional access to AppArmor libvirtd profile. This step is only required if the host OS (eg: Ubuntu) comes with AppArmor profile that is preventing KubeVirt operation. See [issue](https://github.com/kubevirt/kubevirt/issues/7473) for more detail
    ```sh   
    sudo cp apparmor/usr.sbin.libvirtd /etc/apparmor.d/local/
    
    sudo systemctl reload apparmor.service
    ```
+
 3. Install software dependency
    ```sh
    sudo apt install curl -y
@@ -91,16 +93,19 @@ The following is required:
    ```sh
    ./scripts/setuptools.sh -ik
    ```
+
 5. Install **KubeVirt** and **CDI**
    ```sh
    ./scripts/setuptools.sh -iv
    ```
+
 6. Install **Krew** and **virt-plugin**
 
    *Note: Get help on `setuptools.sh` by running `setupstool.sh -h`*
    ```sh
    ./scripts/setuptools.sh -iw
    ```
+
 7. After installation is completed, log out and log back in. Check K3s and KubeVirt have been successfully setup and deployed
 
    *Note: It might takes a few minutes for KubeVirt deployment to complete*
@@ -117,6 +122,7 @@ The following is required:
    NAME       AGE    PHASE
    kubevirt   12m   Deployed
    ```
+
 8. Add systemd service unit file to enable graphics VFs on boot
    ```sh
    sudo mkdir -p /var/vm/scripts
@@ -135,6 +141,7 @@ The following is required:
 
    sudo reboot
    ```  
+
 9. Check the `configvfs.sh` log and `gfx-virtual-func.service` daemon status for any error
    ```sh
    systemctl status gfx-virtual-func.service
@@ -150,10 +157,12 @@ The following is required:
 
    Sep 13 14:51:18 ubuntu-host systemd[1]: Starting Intel Graphics SR-IOV Virtual Function Manager...
    ```
+
 10. Update KubeVirt custom resource configuration to enable virt-handler to discover graphics VFs on the host. All discovered VFs will be published as *allocatable* resource
     ```sh
     kubectl apply -f manifest/kubevirt-cf-gfx-sriov.yaml
     ```
+
 11. Check for resource presence: `intel.com/sriov-gpudevices`
 
     *Note: Please wait for all virt-handler pods to complete restarts using the following command: `kubectl get pods -n kubevirt`*
@@ -191,9 +200,9 @@ The following is required:
 
 Follow the links below for instructions on how to setup and deploy virtual machines using KubeVirt
 
-[Deploy Windows Virtual Machine][deploy-windows]
+[Deploy Windows Virtual Machine][deploy-windows-vm]
 
-[Deploy Ubuntu Virtual Machine][deploy-ubuntu]
+[Deploy Ubuntu Virtual Machine][deploy-ubuntu-vm]
 
 _For more examples, please refer to the [Documentation][documentation-folder]_
 
@@ -227,5 +236,5 @@ Distributed under the Apache License, Version 2.0. See `LICENSE.txt` for more in
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [product-screenshot]: assets/images/screenshot.png
 [documentation-folder]: docs/
-[deploy-windows]: docs/deploy-windows.md
-[deploy-ubuntu]: docs/deploy-ubuntu.md
+[deploy-windows-vm]: docs/deploy-windows-vm.md
+[deploy-ubuntu-vm]: docs/deploy-ubuntu-vm.md
