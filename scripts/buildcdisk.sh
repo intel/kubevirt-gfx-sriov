@@ -207,9 +207,9 @@ if [[ -z $NAME_TAG ]]; then
   exit 1
 fi
 
-# check is docker installed
+# check dependencies
 if ! command_exists docker; then
-  fatal 'The "docker" command does not exist on this system'
+  fatal '"docker" command not found'
 fi
 
 # option: OPT_FOLDER
