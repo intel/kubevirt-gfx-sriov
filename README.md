@@ -209,9 +209,19 @@ _For more examples, please refer to the [Documentation][documentation-folder]_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+
 ## Architecture Design
 
-Follow the link for [Architecture Design][architecture-design] document
+Refer to the link below for information on the architecture and design of the solution
+
+[Architecture and Design][architecture-design]
+
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 
 <!-- RESOURCES -->
 ## Resources
