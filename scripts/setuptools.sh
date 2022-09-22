@@ -242,6 +242,11 @@ while [[ $index -lt ${#OPT_ARG} ]]; do
   index=$(( $index + 1 ))
 done
 
+# check dependencies
+if ! command_exists curl; then
+  fatal '"curl" command not found'
+fi
+
 # Option: install
 if [[ $OPT_INSTALL = true && $OPT_ARG_K3S = true ]]; then
   if command_exists k3s; then
