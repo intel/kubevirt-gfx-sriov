@@ -34,6 +34,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
+    <li><a href="#architecture-design">Architecture Design</a></li>
     <li><a href="#resources">Resources</a></li>
     <li><a href="#license">License</a></li>
   </ol>
@@ -208,7 +209,9 @@ _For more examples, please refer to the [Documentation][documentation-folder]_
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Architecture Design
 
+Follow the link for [Architecture Design][architecture-design] document
 
 <!-- RESOURCES -->
 ## Resources
@@ -238,3 +241,4 @@ Distributed under the Apache License, Version 2.0. See `LICENSE` for more inform
 [documentation-folder]: docs/
 [deploy-windows-vm]: docs/deploy-windows-vm.md
 [deploy-ubuntu-vm]: docs/deploy-ubuntu-vm.md
+[architecture-design]: docs/architecture-design.md
