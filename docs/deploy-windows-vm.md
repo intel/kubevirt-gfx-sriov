@@ -15,39 +15,58 @@ In this document, we are going explain how to install Windows 10 virtual machine
 
 ## Preparation
 
-Prior to installing Windows 10 VM, we'll create two *container disks* to simplify the installation process. The *container disks* will contain:
+Prior to installing Windows 10 VM, we'll create two *container disk images* to simplify the installation process. The *container disk images* (cdisk) or will contain:
 1. Windows 10 ISO file
 
 2. Intel Graphics Driver and Windows 10 update files
 
-See steps below for the *container disks* preparation:
+See steps below for the cdisk preparation:
 
 1. Download Windows 10 ISO, Windows 10 update and Intel Graphics Driver installer files
 
-2. Create *win10-iso-cdisk* 
+2. Create and push ***win10-iso-cdisk*** image to public or private repository of your choice
+
+   *Note: Specifying the `buildcdisk.sh -p` option will instruct **docker** to push cdisk image to the repository. Make sure to login to your repository by running `docker login <repository>` prior to running command below. Docker can be installed by running `sudo apt install docker.io`. Get help on `buildcdisk.sh` by running `buildcdisk.sh -h`*
+
    ```sh
    cd applications.virtualization.kubevirt-gfx-sriov
-   ```
 
-3. Create *win-software-drv-iso-cdisk*
-   ```sh
-   ...
-   ```
+   ./scripts/buildcdisk.sh -p -i <win10-iso-filepath> -t <repository>/win10-iso-cdisk
 
-4. Check container images 
-   ```sh
-   sudo crictl images
+   docker images
    ```
    Output:
    ```sh
-   IMAGE                             TAG                 IMAGE ID            SIZE
-   ../win10-iso-cdisk                latest              2ba64909efd0d       5.23GB
-   ../win-software-drv-iso-cdisk     latest              6d315a9294be1       2.01GB
+   REPOSITORY                      TAG       IMAGE ID       CREATED          SIZE
+   <repository>/win10-iso-cdisk    latest    c28c1bc0e119   19 minutes ago   4.85GB
+
+   ```
+3. Create and push ***win-softwaredrv-iso-cdisk*** image to the repository. Create a temporary folder and move Windows 10 update and Intel Graphics Driver installer files into the folder
+   ```sh
+   tempdir=$(mktemp -d)
+
+   mv <install-files> $tempdir
+
+   ./scripts/buildcdisk.sh -p -d $tempdir -t <repository>/win-softwaredrv-iso-cdisk
+
+   docker images
+   ```
+   Output:
+   ```sh
+   REPOSITORY                                TAG       IMAGE ID       CREATED          SIZE
+   <repository>/win-softwaredrv-iso-cdisk    latest    39529553d359   35 minutes ago   1.39GB
+
    ```
 
-5. Push the *container disks* to private or public registry of your choice
+   *Note: We only use docker to create and upload cdisk images to the repository. However, for deployment, we use **crictl** to manage and view containers on the host, eg: `sudo crictl images`*
+
+4. [Optional] Once cdisk images have been upload to repository, you can delete all docker images on the host to free up space
    ```sh
-   ...
+   docker rmi <repository>/win10-iso-cdisk:latest
+
+   docker rmi <repository>/win-softwaredrv-iso-cdisk:latest
+
+   docker system prune
    ```
 
 
@@ -65,9 +84,10 @@ Proceed with the VM installation steps below:
    ```sh
    kubectl apply -k manifests/overlays/win10-install
    ```
+
 2. Wait for  *STATUS*=***Running*** and *READY*=***True***
 
-   *Note: Please wait for the completion of the container disks download from the registry. This will take a while depending on the container disks size*
+   *Note: Please wait for the completion of the container disks download from the repository. This will take a while depending on the container disks size*
 
    ```sh
    kubectl get vm
@@ -194,6 +214,7 @@ Proceed with the VM installation steps below:
    *Note: You can start or stop the VM anytime using the following command: `kubectl virt start win10-vm` and `kubectl virt stop win10-vm`*
 
    <img src=./media/youtube4k1.png width="80%">
+
 
 [readme]: ../README.md
 [virtvnc]: ./media/virvnc.png

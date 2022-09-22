@@ -28,7 +28,7 @@ spec:
           # Note: make sure clamName matches the kustomized pvc name 
       - name: cdromiso
         containerDisk:
-          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/ubuntu22-iso-containerdisk
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/ubuntu22-iso-cdisk
           imagePullPolicy: IfNotPresent
       - name: linuxsoftwaredrviso
         containerDisk:

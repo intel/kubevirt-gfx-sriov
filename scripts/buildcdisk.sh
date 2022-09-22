@@ -69,6 +69,7 @@ create_cdisk_from_iso()
 
   local iso_filepath=$1
   local name_tag=$2
+  local push_img=$3
   local iso_filename="cdrom.iso"
 
   buildir=$(mktemp -d)
@@ -98,6 +99,7 @@ create_cdisk_from_diskimage()
 
   local img_filepath=$1
   local name_tag=$2
+  local push_img=$3
   local img_filename="disk.img"
 
   buildir=$(mktemp -d)

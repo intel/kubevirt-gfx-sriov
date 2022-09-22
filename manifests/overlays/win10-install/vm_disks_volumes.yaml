@@ -32,7 +32,7 @@ spec:
           # Note: make sure clamName matches the kustomized pvc name 
       - name: cdromiso
         containerDisk:
-          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/win10-iso-containerdisk
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/win10-iso-cdisk
           imagePullPolicy: IfNotPresent
       - name: virtiocontainerdisk
         containerDisk:
@@ -40,5 +40,5 @@ spec:
           imagePullPolicy: IfNotPresent
       - name: winsoftwaredrviso
         containerDisk:
-          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/winutil-iso-containerdisk
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/win-softwaredrv-iso-cdisk
           imagePullPolicy: IfNotPresent
