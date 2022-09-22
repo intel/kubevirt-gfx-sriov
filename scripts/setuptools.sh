@@ -1,5 +1,7 @@
 #!/bin/bash
 
+trap cleanup EXIT
+
 KV_VERSION="v0.53.0"
 CDI_VERSION="v1.48.1"
 KUBECONFIG_PATH="/etc/rancher/k3s/k3s.yaml"
@@ -18,6 +20,12 @@ fatal()
 {
   echo '[ERROR] ' "$@" >&2
   exit 1
+}
+
+cleanup()
+{
+  rm -f temp
+  rm -rf tempdir
 }
 
 install_k3s()
@@ -68,6 +76,7 @@ unconf_k3s()
   info "Undo K3s and kubectl configuration"
   temp=$(mktemp)
   cat ~/.bashrc | grep -v "source <(kubectl completion bash)" | grep -v "alias k=kubectl" | grep -v "complete -F __start_kubectl k" | grep -v "export KUBECONFIG=${KUBECONFIG_PATH}" > $temp && cp $temp ~/.bashrc
+  rm -f $temp
 }
 
 install_kubevirt()
@@ -106,13 +115,16 @@ install_krew()
 {
   info "Installing krew"
 
-  cd "$(mktemp -d)" && \
+  tempdir=$(mktemp -d)
+  pushd $tempdir && \
     OS="$(uname | tr '[:upper:]' '[:lower:]')" && \
     ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" && \
     KREW="krew-${OS}_${ARCH}" && \
     curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" && \
     tar zxvf "${KREW}.tar.gz" && \
-    ./"${KREW}" install krew
+    ./"${KREW}" install krew && \
+    popd
+  rm -rf $tempdir
 }
 
 uninstall_krew()
@@ -136,6 +148,7 @@ unconf_krew()
   info "Undo krew configuration"
   temp=$(mktemp)
   cat ~/.bashrc | grep -v "export PATH=\$PATH:$KREW_PATH" > $temp && cp $temp ~/.bashrc
+  rm -f $temp
 }
 
 install_virt_plugin()
@@ -153,14 +166,6 @@ uninstall_virt_plugin()
 command_exists()
 {
   command -v "$@" > /dev/null 2>&1
-}
-
-become_superuser()
-{
-  SUDO=sudo
-  if [ $(id -u) -eq 0 ]; then
-    SUDO=
-  fi
 }
 
 usage() 
@@ -188,10 +193,10 @@ usage()
 }
 
 clear
-[ $# -eq 0 ] && usage
+[ $# -eq 0 ] && usage && exit 0
 
 # determine option entered
-while getopts "i:u:hf" opt; do
+while getopts "i:u:h" opt; do
   case "$opt" in
     i)
       OPT_INSTALL=true
@@ -243,7 +248,6 @@ if [[ $OPT_INSTALL = true && $OPT_ARG_K3S = true ]]; then
     warn 'The "k3s" command appears to already exist on this system'
     warn 'Skip "k3s" installation'
   else
-    become_superuser
     install_k3s
     conf_k3s
   fi
@@ -292,7 +296,6 @@ fi
 
 if [[ $OPT_UNINSTALL = true && $OPT_ARG_K3S = true ]]; then
   if command_exists k3s; then
-    become_superuser
     uninstall_k3s
     unconf_k3s
   else
