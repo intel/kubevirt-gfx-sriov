@@ -226,7 +226,7 @@ _For more examples, please refer to the [Documentation][documentation-folder]_
 <!-- LICENSE -->
 ## License
 
-Distributed under the Apache License, Version 2.0. See `LICENSE.txt` for more information.
+Distributed under the Apache License, Version 2.0. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
