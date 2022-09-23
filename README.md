@@ -67,6 +67,16 @@ The following is required:
 * Configuration to enable Graphics SR-IOV support on host:
    * [12th Generation Intel Core **embedded** processors](https://cdrdv2.intel.com/v1/dl/getContent/680834)
 
+     *Note: Save the kernel debian package files that were built by completing section "3.0: Host OS Kernel Build Steps" of the **Alder-Lake-MultiOS-With-GFX-SR-IOV-Virtualization-On-Ubuntu-User-Guide.pdf** into a folder and create an archive file. We will use this archive file in the prepration  step for setting up Ubuntu VM at <a href="#usage">Usage: Deploy Ubuntu Virtual Machine </a> later. See below on steps to create an archive file:*
+     ```sh
+     mkdir kernel
+
+     cp *.deb kernel/
+
+     tar -czvf kernel.tgz kernel/
+     ```
+
+
 ### Installation
 
 1. Clone the repo
@@ -161,7 +171,7 @@ The following is required:
 
 10. Update KubeVirt custom resource configuration to enable virt-handler to discover graphics VFs on the host. All discovered VFs will be published as *allocatable* resource
     ```sh
-    kubectl apply -f manifest/kubevirt-cf-gfx-sriov.yaml
+    kubectl apply -f manifests/kubevirt-cf-gfx-sriov.yaml
     ```
 
 11. Check for resource presence: `intel.com/sriov-gpudevices`
