@@ -165,7 +165,7 @@ Proceed with the VM installation steps below:
 
    sudo cp /media/vmuser/CDROM/* $HOME/build
    ```
-8. Extract all the required files to prepare for software and kernel installation
+8. Extract all the required files to prepare for software and kernel installation on the VM
    ```sh
    cd $HOME/build
 
@@ -180,7 +180,7 @@ Proceed with the VM installation steps below:
    chmod +x *.sh
    ```
 
-9. Download and install i915 firmware files, install Linux kernel and update grub settings
+9. Download and install i915 firmware files, install Linux kernel and update VM grub settings
 
    ```sh
    cd $HOME/build
@@ -199,7 +199,7 @@ Proceed with the VM installation steps below:
    5.15.44-lts2021-iotg
    ```
 
-10. Run commands below to install userspace libraries and tools. If prompted, answer 'y' to proceed with the installation
+10. Run commands below to install userspace libraries and tools on the VM. If prompted, answer 'y' to proceed with the installation
     ```sh
     cd $HOME/build
 
@@ -231,8 +231,25 @@ Proceed with the VM installation steps below:
    kubectl apply -k manifests/overlays/ubuntu22-deploy
    ```
 
-2. Make sure GPU acceleration is enabled
+2. From the host, remote into the VM using SSH client and check the graphics VF is working as expected
    ```sh
+   ssh <vmuser>@<CLUSTER-IP>
+
+   dmesg | grep i915
+   ```
+   Output:
+   ```sh
+   i915 0000:05:00.0: Running in SR-IOV VF mode
+   ```
+   Run more tests with the following commands
+   ```sh
+   sudo apt install clinfo
+
+   clinfo
+
+   vainfo
+
+   DISPLAY=:0 glxinfo
    ```
 
 3. Congratulation! You have completed the setup
