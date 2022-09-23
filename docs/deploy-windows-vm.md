@@ -140,6 +140,8 @@ Proceed with the VM installation steps below:
    <img src=./media/winblank.png width="80%">
    <img src=./media/devicemgr.png width="80%">
 
+   ***Note: If operating behind corporate firewall, setup the proxy settings.*** In this example, we'll show you how to enable and setup manual proxy, Click *Start* > type *change proxy settings* > turn **Off** all options under **Automatic proxy setup** > turn **On** *Use a proxy server* option under **Manual proxy setup** > enter *\<proxy-server-url>* in *Address* and *\<proxy-server-port>* in *Port* edit boxes
+
 8. At this point, you have the option to enable remote desktop service on the VM to allow remote client to access the VM using RDP connection. To enable remote desktop service on the VM, go to *Settings -> Remote desktop settings -> Enable Remote Desktop*
 
    On the host, run command below to get the EXTERNAL-IP address of the RDP service for the VM

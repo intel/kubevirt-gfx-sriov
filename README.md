@@ -78,6 +78,9 @@ The following is required:
 ### Installation
 
 1. Clone the repo
+
+   ***Note: If operating behind corporate firewall, setup the proxy settings before continue***
+
    ```sh
    git clone https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov.git
    
@@ -159,12 +162,12 @@ The following is required:
    ```sh
    gfx-virtual-func.service - Intel Graphics SR-IOV Virtual Function Manager
      Loaded: loaded (/etc/systemd/system/gfx-virtual-func.service; enabled; vendor preset: enabled)
-     Active: active (exited) since Tue 2022-09-13 14:51:19 +08; 1h 3min ago
+     Active: active (exited)
     Process: 930 ExecStart=/bin/bash /var/vm/scripts/configvfs.sh -e (code=exited, status=0/SUCCESS)
    Main PID: 930 (code=exited, status=0/SUCCESS)
         CPU: 138ms
 
-   Sep 13 14:51:18 ubuntu-host systemd[1]: Starting Intel Graphics SR-IOV Virtual Function Manager...
+   ubuntu-host systemd[1]: Starting Intel Graphics SR-IOV Virtual Function Manager...
    ```
 
 10. Update KubeVirt custom resource configuration to enable virt-handler to discover graphics VFs on the host. All discovered VFs will be published as *allocatable* resource

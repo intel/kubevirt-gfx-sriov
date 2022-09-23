@@ -126,6 +126,11 @@ Proceed with the VM installation steps below:
 
 6. After Ubuntu VM is successfully installed, run commands below in the VM to update and upgrade all software packages and install OpenSSH Server
 
+   ***Note: If operating behind corporate firewall, setup the proxy settings.*** *Add the following to /etc/environment file and run `source /etc/environment`*
+     * _http_proxy=\<proxy-server:port>_
+     * _https_proxy=\<proxy-server:port>_
+     * _no_proxy=\<example>.com,.\<example>.com,localhost,127.0.0.0/8,192.168.0.0/16_
+
    Ubuntu VM:
    ```sh
    sudo apt update && sudo apt upgrade -y
