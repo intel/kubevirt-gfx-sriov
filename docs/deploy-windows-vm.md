@@ -28,6 +28,8 @@ See steps below for the cdisk preparation:
 
    *Note: Specifying the `buildcdisk.sh -p` option will instruct **docker** to push cdisk image to the repository. Make sure to login to your repository by running `docker login <repository>` prior to running command below. Docker can be installed by running `sudo apt install docker.io`. Get help on `buildcdisk.sh` by running `buildcdisk.sh -h`*
 
+   *Note: [Docker Hub](https://hub.docker.com/) is an example public container repository or registry you can sign up if you don't have a private repository setup*
+
    ```sh
    cd applications.virtualization.kubevirt-gfx-sriov
 
@@ -60,7 +62,7 @@ See steps below for the cdisk preparation:
 
    *Note: We only use docker to create and upload cdisk images to the repository. However, for deployment, we use **crictl** to manage and view containers on the host, eg: `sudo crictl images`*
 
-4. [Optional] Once cdisk images have been upload to repository, you can delete all docker images on the host to free up space
+4. [Optional] Once cdisk images have been upload to the repository, you can delete all docker images on the host to free up space
    ```sh
    docker rmi <repository>/win10-iso-cdisk:latest
 
@@ -77,9 +79,9 @@ Proceed with the VM installation steps below:
 1. Starting Windows VM installation. Executing commands below on the host will invoke the following actions:
      * Create an empty persistent volume on the host
      * Launch VM with Windows ISO and software driver ISO files attached as CD-ROMs
-     * Enable SSH and RDP services     
+     * Enable SSH and RDP services
 
-   *Note: To view all the composed resources without applying them, run `kubectl kustomize manifests/overlays/win10-install`*
+   *Note: To view all the composed resources without applying them, run `kubectl kustomize manifests/overlays/win10-install`. Make sure the **containerDisk > image** values specified in **manifests/overlays/win10-install/vm_disks_volumes.yaml** file are set to the correct \<repository>/\<container name>, eg: **image: docker.io/foobar/win10-iso-cdisk***
 
    ```sh
    kubectl apply -k manifests/overlays/win10-install
