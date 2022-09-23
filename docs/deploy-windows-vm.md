@@ -5,17 +5,17 @@ In this document, we are going explain how to install Windows 10 virtual machine
 
 ## Prerequisites
 
-* Appropriate [hardware][readme]
-* A fully [configured host][readme] (with Graphics SR-IOV)
+* Appropriate [hardware][readme-getting-started]
+* A fully [configured host][readme-getting-started] (with Graphics SR-IOV)
 * A working Kubernetes cluster
 * Windows 10 ISO. In this example we are using Windows 10 Enterprise version 21H2
-* [Windows 10 Cumulative Update](https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/updt/2022/04/windows10.0-kb5011831-x64_8439b4066bdee925aa5352f9ed286ecfa94ce545.msu) (version 21H2)
-* [Intel Graphics Driver](https://cdrdv2.intel.com/v1/dl/getContent/736997/737084?filename=win64.zip) (version MR2 101.3111)
+* [Windows 10 Cumulative Update](https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/updt/2022/04/windows10.0-kb5011831-x64_8439b4066bdee925aa5352f9ed286ecfa94ce545.msu) version 21H2
+* [Intel Graphics Driver](https://cdrdv2.intel.com/v1/dl/getContent/736997/737084?filename=win64.zip) version MR2 101.3111 (win64.zip)
 
 
 ## Preparation
 
-Prior to installing Windows 10 VM, we'll create two *container disk images* to simplify the installation process. The *container disk images* (cdisk) or will contain:
+Prior to installing Windows 10 VM, we'll create two *container disk images* (cdisk) to simplify the installation process. The cdisk images will contain:
 1. Windows 10 ISO file
 
 2. Intel Graphics Driver and Windows 10 update files
@@ -60,9 +60,9 @@ See steps below for the cdisk preparation:
 
    ```
 
-   *Note: We only use docker to create and upload cdisk images to the repository. However, for deployment, we use **crictl** to manage and view containers on the host, eg: `sudo crictl images`*
+   *Note: We only use docker to create and upload cdisk images to the repository. However, for deployment, we use **crictl** to manage containers on the host, eg: `sudo crictl images`*
 
-4. [Optional] Once cdisk images have been upload to the repository, you can delete all docker images on the host to free up space
+4. [Optional] Once cdisk images have been upload to the repository, you can delete all docker images on the host to free up storage space
    ```sh
    docker rmi <repository>/win10-iso-cdisk:latest
 
@@ -87,7 +87,7 @@ Proceed with the VM installation steps below:
    kubectl apply -k manifests/overlays/win10-install
    ```
 
-2. Wait for  *STATUS*=***Running*** and *READY*=***True***
+2. Wait for *STATUS*=***Running*** and *READY*=***True***
 
    *Note: Please wait for the completion of the container disks download from the repository. This will take a while depending on the container disks size*
 
@@ -175,7 +175,7 @@ Proceed with the VM installation steps below:
     ```
     From the host, connect to the VM OpenSSH server
     ```sh
-    ssh <user>@<CLISTER-IP>
+    ssh <vmuser>@<CLUSTER-IP>
     ```
 
 11. Shutdown the Windows VM and run the following command to stop the *win10-vm* Virtual Machine resource before moving to **Deployment** stage
@@ -219,6 +219,7 @@ Proceed with the VM installation steps below:
 
 
 [readme]: ../README.md
+[readme-getting-started]: ../README.md#getting-started
 [virtvnc]: ./media/virvnc.png
 [winsetup1]: ./media/winsetup1.png
 [winsetup4]: ./media/winsetup4.png
