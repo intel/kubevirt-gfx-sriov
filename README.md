@@ -1,10 +1,10 @@
 <a name="readme-top"></a>
 
 <div align="center">
-  <h3 align="center">KubeVirt Graphics SR-IOV</h3>
+  <h3 align="center">Intel® Graphics SR-IOV Enablement Toolkit</h3>
 
   <p align="center">
-    This project contains the software components and ingredients to enable Intel's graphics virtualization technology (Graphics SR-IOV) on cloud/edge-native infrastructure. The aim is deliver GPU-accelerated workloads capability to virtual machines running on Kubernetes cluster. 
+    This project contains the software components and ingredients to enable Intel's graphics virtualization technology (Graphics SR-IOV) on cloud/edge-native infrastructure. The aim is to deliver GPU-accelerated workloads capability to virtual machines running on Kubernetes cluster.
     <br />
     <a href="https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov"><strong>Explore the docs »</strong></a>
     <br />
@@ -45,7 +45,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]]
+![Product Name Screen Shot][product-screenshot]
 
 This repository contains the collection of scripts, manifests and documentation to enable **Graphics SR-IOV** for cloud/edge-native application development. [KubeVirt](https://github.com/kubevirt/kubevirt) is the main component used to manage Virtual Machines (VMs) and the Graphics SR-IOV resources on the host.
 
@@ -58,16 +58,15 @@ This repository contains the collection of scripts, manifests and documentation 
 
 Access to appropriate hardware and drivers is required for the setup. Graphics SR-IOV technology is supported on the following Intel products:
 * 12th Generation Intel Core ***embedded*** processors (Alder Lake)+
-* _Data Center GPU Flex series (Artic Sound)_
 
 ### Prerequisites
 
 The following is required:
 * A working [Ubuntu 22.04 LTS](https://releases.ubuntu.com/22.04/) host
-* Configuration to enable Graphics SR-IOV support on host:
+* Configuration to enable Graphics SR-IOV on host:
    * [12th Generation Intel Core **embedded** processors](https://cdrdv2.intel.com/v1/dl/getContent/680834)
 
-     *Note: Save the kernel debian package files that were built by completing section "3.0: Host OS Kernel Build Steps" of the **Alder-Lake-MultiOS-With-GFX-SR-IOV-Virtualization-On-Ubuntu-User-Guide.pdf** into a folder and create an archive file. We will use this archive file in the prepration  step for setting up Ubuntu VM at <a href="#usage">Usage: Deploy Ubuntu Virtual Machine </a> later. See below on steps to create an archive file:*
+     *Note: Save the kernel debian package files built by completing section "3.0: Host OS Kernel Build Steps" of the [Alder-Lake-MultiOS-With-GFX-SR-IOV-Virtualization-On-Ubuntu-User-Guide.pdf](https://cdrdv2.intel.com/v1/dl/getContent/680834) into a folder and proceed to create an archive file. We will use this archive file in the prepration stage for setting up Ubuntu VM at <a href="#usage">Usage > Deploy Ubuntu Virtual Machine </a> later. See below on steps to create an archive file:*
      ```sh
      mkdir kernel
 
@@ -75,7 +74,6 @@ The following is required:
 
      tar -czvf kernel.tgz kernel/
      ```
-
 
 ### Installation
 
@@ -257,7 +255,7 @@ Distributed under the Apache License, Version 2.0. See `LICENSE` for more inform
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[product-screenshot]: assets/images/screenshot.png
+[product-screenshot]: docs/media/winubuntu.png
 [documentation-folder]: docs/
 [deploy-windows-vm]: docs/deploy-windows-vm.md
 [deploy-ubuntu-vm]: docs/deploy-ubuntu-vm.md
