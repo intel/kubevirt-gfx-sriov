@@ -60,7 +60,7 @@ See steps below for the cdisk preparation:
 
    ```
 
-   *Note: We only use docker to create and upload cdisk images to the repository. However, for deployment, we use **crictl** to manage containers on the host, eg: `sudo crictl images`*
+   *Note: We only use docker to create and upload cdisk images to the repository. However, for deployment, we use **crictl** to manage containers on the host, eg: `sudo crictl images`, `sudo crictl pull <repo/image>`*
 
 4. [Optional] Once cdisk images have been upload to the repository, you can delete all docker images on the host to free up storage space
    ```sh
@@ -76,12 +76,12 @@ See steps below for the cdisk preparation:
 
 Proceed with the VM installation steps below:
 
-1. Starting Windows VM installation. Executing commands below on the host will invoke the following actions:
+1. Before starting Windows VM installation, make sure all the **volumes > containerDisk > image** specified in [vm_disks_volumes.yaml][vmdiskvolume] are set to the correct values, eg: ***image: docker.io/myrepo/win10-iso-cdisk***. Executing commands below on the host will invoke the following actions:
      * Create an empty persistent volume on the host
      * Launch VM with Windows ISO and software driver ISO files attached as CD-ROMs
      * Enable SSH and RDP services
 
-   *Note: To view all the composed resources without applying them, run `kubectl kustomize manifests/overlays/win10-install`. Make sure the **containerDisk > image** values specified in **manifests/overlays/win10-install/vm_disks_volumes.yaml** file are set to the correct \<repository>/\<container name>, eg: **image: docker.io/foobar/win10-iso-cdisk***
+   *Note: To view all the composed resources without applying them, run `kubectl kustomize manifests/overlays/win10-install`*
 
    ```sh
    kubectl apply -k manifests/overlays/win10-install
@@ -156,7 +156,7 @@ Proceed with the VM installation steps below:
 
 9. Copy Intel Graphics Driver and Windows 10 update files from the CDROM drive to Windows desktop. Launch Windows 10 update installer and make sure Windows version is updated as shown below:
 
-   *Note: Windows update will take about 30-40 minutes. Intel Graphics Driver installation will be carried out at later **Deployment** stage* 
+   *Note: Windows update will take about 30-40 minutes. Intel Graphics Driver installation will be carried out at [Deployment][deployment] step 2*
 
    <img src=./media/winver2.png width="55%">
 
@@ -203,7 +203,7 @@ Proceed with the VM installation steps below:
    ```
 2. Unzip and execute Intel Graphics Driver installer on the Windows desktop: *Desktop\win64\Installer.exe*
 
-   *Note: Refer to the Installation step 9 above for the location of the Intel Graphics Driver installer. The installation process will take a while to complete*
+   *Note: Refer to the [Installation][installation] step 9 for the location of the Intel Graphics Driver installer*
 
    <img src=./media/gfxdrvinstall.png width="80%">
 
@@ -220,6 +220,8 @@ Proceed with the VM installation steps below:
 
 [readme]: ../README.md
 [readme-getting-started]: ../README.md#getting-started
+[deployment]: #deployment
+[installation]: #installation
 [virtvnc]: ./media/virvnc.png
 [winsetup1]: ./media/winsetup1.png
 [winsetup4]: ./media/winsetup4.png
@@ -232,3 +234,4 @@ Proceed with the VM installation steps below:
 [gfxdrvinstall]: ./media/gfxdrvinstall.png
 [gfxdrv]: ./media/gfxdrv.png
 [youtube4k1]: ./media/youtube4k1.png
+[vmdiskvolume]: ../manifests/overlays/win10-install/vm_disks_volumes.yaml
