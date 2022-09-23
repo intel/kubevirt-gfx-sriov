@@ -75,12 +75,10 @@ See steps below for the cdisk preparation:
 
 Proceed with the VM installation steps below:
 
-1. Starting Ubuntu VM installation. Executing commands below on the host will invoke the following actions:
+1. Before starting Ubuntu VM installation, make sure all the **volumes > containerDisk > image** specified in [vm_disks_volumes.yaml][vmdiskvolume] are set to the correct values, eg: ***image: docker.io/myrepo/ubuntu22-iso-cdisk***. Executing commands below on the host will invoke the following actions:
      * Create an empty persistent volume on the host
      * Launch VM with Ubuntu ISO and software driver ISO files attached as CD-ROMs
      * Enable SSH service
-
-   *Note: To view all the composed resources without applying them, run `kubectl kustomize manifests/overlays/ubuntu22-install`. Make sure the **containerDisk > image** values specified in **manifests/overlays/ubuntu22-install/vm_disks_volumes.yaml** file are set to the correct \<repository>/\<container name>, eg: **image: docker.io/foobar/ubuntu22-iso-cdisk***
 
    ```sh
    kubectl apply -k manifests/overlays/ubuntu22-install
@@ -190,7 +188,7 @@ Proceed with the VM installation steps below:
    sudo ./sriov_setup_kernel.sh
    ```
 
-   Press 'y' to reboot the VM. After reboot, remote into VM from the host and check installed kernel version
+   Press 'y' to reboot the VM. After reboot, remote into VM from the host and check the version of the installed kernel
    ```sh
    ssh <vmuser>@<CLUSTER-IP>
 
@@ -205,7 +203,9 @@ Proceed with the VM installation steps below:
     ```sh
     cd $HOME/build
 
-    sudo ./config_ubuntu_guest.sh
+    sed -i 's/reboot_required=0/reboot_required=0\nGUEST_SETUP=1/' sriov_setup_ubuntu.sh
+
+    sudo ./sriov_setup_ubuntu.sh
     ```
 
 11. Shutdown the Ubuntu VM and run the following command to stop the *ubuntu22-vm* Virtual Machine resource before moving to **Deployment** stage
@@ -245,3 +245,4 @@ Proceed with the VM installation steps below:
 [virtvnc2]: ./media/virtvnc2.png
 [ubuntusetup]: ./media/ubuntusetup.png
 [ubuntublank]: ./media/ubuntublank.png
+[vmdiskvolume]: ../manifests/overlays/ubuntu22-install/vm_disks_volumes.yaml
