@@ -118,7 +118,7 @@ Proceed with the VM installation steps below:
    ```sh
    http://<EXTERNAL-IP>:8001/?namespace=default
    ```
-   <img src=./media/virvnc2.png width="80%">
+   <img src=./media/virtvnc2.png width="80%">
 
 5. Follow the instructions on the Ubuntu Install menu to begin the setup process
 
@@ -242,6 +242,6 @@ Proceed with the VM installation steps below:
 [readme]: ../README.md
 [readme-getting-started]: ../README.md#getting-started
 [readme-prerequisites]: ../README.md#prerequisites
-[virtvnc2]: ./media/virvnc2.png
+[virtvnc2]: ./media/virtvnc2.png
 [ubuntusetup]: ./media/ubuntusetup.png
 [ubuntublank]: ./media/ubuntublank.png
