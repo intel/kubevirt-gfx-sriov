@@ -1,3 +1,5 @@
+<a name="win10-vm-top"></a>
+
 # Microsoft Windows 10 VM
 
 In this document, we are going explain how to install Windows 10 virtual machine (VM) using **ISO** file and how to configure the VM to support GPU-accelerated workloads (eg: media transcoding, 3D rendering, AI inferencing) using Intel Graphics SR-IOV technology
@@ -9,7 +11,7 @@ In this document, we are going explain how to install Windows 10 virtual machine
 * A fully [configured host][readme-getting-started] (with Graphics SR-IOV)
 * A working Kubernetes cluster
 * Windows 10 ISO. In this example we are using Windows 10 Enterprise version 21H2
-* [Windows 10 Cumulative Update](https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/updt/2022/04/windows10.0-kb5011831-x64_8439b4066bdee925aa5352f9ed286ecfa94ce545.msu) version 21H2
+* [Windows 10 Cumulative Update](https://catalog.s.download.windowsupdate.com/d/msdownload/update/software/updt/2022/04/windows10.0-kb5011831-x64_8439b4066bdee925aa5352f9ed286ecfa94ce545.msu) version 21H2 (windows10.0-kb5011831-x64*.msu)
 * [Intel Graphics Driver](https://cdrdv2.intel.com/v1/dl/getContent/736997/737084?filename=win64.zip) version MR2 101.3111 (win64.zip)
 
 
@@ -26,7 +28,7 @@ See steps below for the cdisk preparation:
 
 2. Create and push ***win10-iso-cdisk*** image to public or private repository of your choice
 
-   *Note: Specifying the `buildcdisk.sh -p` option will instruct **docker** to push cdisk image to the repository. Make sure to login to your repository by running `docker login <repository>` prior to running command below. Docker can be installed by running `sudo apt install docker.io`. Get help on `buildcdisk.sh` by running `buildcdisk.sh -h`*
+   *Note: Specifying the `buildcdisk.sh -p` option will instruct **docker** to push cdisk image to the repository. Make sure to login to your repository by running `docker login <repository>` prior to running command below. Docker can be installed by running `sudo apt install docker.io && sudo usermod -aG docker $USER && newgrp docker`. Get help on `buildcdisk.sh` by running `buildcdisk.sh -h`*
 
    *Note: [Docker Hub](https://hub.docker.com/) is an example public container repository or registry you can sign up if you don't have a private repository setup*
 
@@ -43,13 +45,17 @@ See steps below for the cdisk preparation:
    <repository>/win10-iso-cdisk    latest    c28c1bc0e119   19 minutes ago   4.85GB
 
    ```
-3. Create and push ***win-softwaredrv-iso-cdisk*** image to the repository. Create a temporary folder and move Windows 10 update and Intel Graphics Driver installer files into the folder
+3. Create and push ***win-softwaredrv-iso-cdisk*** image to the repository. Create a temporary folder and copy Windows 10 update and Intel Graphics Driver installer files into the folder
    ```sh
    tempdir=$(mktemp -d)
 
-   mv <install-files> $tempdir
+   cp windows10.0-kb5011831-x64*.msu $tempdir
+
+   cp win64.zip $tempdir
 
    ./scripts/buildcdisk.sh -p -d $tempdir -t <repository>/win-softwaredrv-iso-cdisk
+
+   rm -rf $tempdir
 
    docker images
    ```
@@ -71,6 +77,7 @@ See steps below for the cdisk preparation:
    docker system prune
    ```
 
+<p align="right">(<a href="#win10-vm-top">back to top</a>)</p>
 
 ## Installation
 
@@ -112,7 +119,7 @@ Proceed with the VM installation steps below:
    virtvnc         LoadBalancer   10.43.96.13    10.158.76.244   8001:31507/TCP   12h
    ```
 
-4. Launch a web browser on the host and navigate to the url below. Press the ***VNC*** button to initiate VNC session to the VM
+4. Launch a web browser on the host or on a remote client and navigate to the url below. Press the ***VNC*** button to initiate VNC session to the VM
 
    *Note: Both the CLUSTER-IP and EXTERNAL-IP will work. You can also change the namespace value to reflect your VM's namespace*
 
@@ -142,7 +149,7 @@ Proceed with the VM installation steps below:
 
    ***Note: If operating behind corporate firewall, setup the proxy settings.*** In this example, we'll show you how to enable and setup manual proxy, Click *Start* > type *change proxy settings* > turn **Off** all options under **Automatic proxy setup** > turn **On** *Use a proxy server* option under **Manual proxy setup** > enter *\<proxy-server-url>* in *Address* and *\<proxy-server-port>* in *Port* edit boxes
 
-8. At this point, you have the option to enable remote desktop service on the VM to allow remote client to access the VM using RDP connection. To enable remote desktop service on the VM, go to *Settings -> Remote desktop settings -> Enable Remote Desktop*
+8. At this point, you have the option to enable remote desktop service on the VM to allow remote client to access the VM using RDP connection. To enable remote desktop service on the VM, go to *Settings -> Remote desktop settings -> turn **On** Enable Remote Desktop*
 
    On the host, run command below to get the EXTERNAL-IP address of the RDP service for the VM
 
@@ -193,6 +200,7 @@ Proceed with the VM installation steps below:
     win10-vm      15h   Stopped   False
     ```
 
+<p align="right">(<a href="#win10-vm-top">back to top</a>)</p>
 
 ## Deployment
 
@@ -219,6 +227,7 @@ Proceed with the VM installation steps below:
 
    <img src=./media/youtube4k1.png width="80%">
 
+<p align="right">(<a href="#win10-vm-top">back to top</a>)</p>
 
 [readme]: ../README.md
 [readme-getting-started]: ../README.md#getting-started

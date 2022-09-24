@@ -1,3 +1,5 @@
+<a name="ubuntu22-vm-top"></a>
+
 # Ubuntu 22.04 LTS  VM
 
 In this document, we are going to explain how to install Ubuntu 22.04 virtual machine (VM) using **ISO** file and how to configure the VM to support GPU-accelerated workloads (eg: media transcoding, 3D rendering, AI inferencing) using Intel Graphics SR-IOV technology
@@ -9,7 +11,7 @@ In this document, we are going to explain how to install Ubuntu 22.04 virtual ma
 * A fully [configured host][readme-getting-started] (with Graphics SR-IOV)
 * A working Kubernetes cluster
 * [Ubuntu 22.04 desktop ISO.](https://releases.ubuntu.com/22.04/) In this example we are using Ubuntu 22.04 desktop
-* [MR2 release package](https://cdrdv2.intel.com/v1/dl/getContent/738824/738826?filename=ADL-S_KVM_MultiOS_MR2.zip) (ADL-S_KVM_MultiOS_MR2.zip )
+* [MR2 release package](https://cdrdv2.intel.com/v1/dl/getContent/738824/738826?filename=ADL-S_KVM_MultiOS_MR2.zip) (ADL-S_KVM_MultiOS_MR2.zip)
 * [Linux kernel archive][readme-prerequisites] (kernel.tgz)
 
 
@@ -26,7 +28,7 @@ See steps below for the cdisk preparation:
 
 2. Create and push ***ubuntu22-iso-cdisk*** image to public or private repository of your choice
 
-   *Note: Specifying the `buildcdisk.sh -p` option will instruct **docker** to push cdisk image to the repository. Make sure to login to your repository by running `docker login <repository>` prior to running command below. Docker can be installed by running `sudo apt install docker.io`. Get help on `buildcdisk.sh` by running `buildcdisk.sh -h`*
+   *Note: Specifying the `buildcdisk.sh -p` option will instruct **docker** to push cdisk image to the repository. Make sure to login to your repository by running `docker login <repository>` prior to running command below. Docker can be installed by running `sudo apt install docker.io && sudo usermod -aG docker $USER && newgrp docker`. Get help on `buildcdisk.sh` by running `buildcdisk.sh -h`*
 
    *Note: [Docker Hub](https://hub.docker.com/) is an example public container repository or registry you can sign up if you don't have a private repository setup*
 
@@ -43,13 +45,17 @@ See steps below for the cdisk preparation:
    <repository>/ubuntu22-iso-cdisk   latest    d72a9dde0409   16 minutes ago   3.65GB
    ```
 
-3. Create and push ***linux-softwaredrv-iso-cdisk*** image to the repository. Create a temporary folder and move Linux kernel archive and MR2 release package files to the folder
+3. Create and push ***linux-softwaredrv-iso-cdisk*** image to the repository. Create a temporary folder and copy Linux kernel archive and MR2 release package files to the folder
    ```sh
    tempdir=$(mktemp -d)
 
-   mv <files> $tempdir
+   cp ADL-S_KVM_MultiOS_MR2.zip $tempdir
+
+   cp kernel.tgz $tempdir
 
    ./scripts/buildcdisk.sh -p -d $tempdir -t <repository>/linux-softwaredrv-iso-cdisk
+
+   rm -rf $tempdir
 
    docker images
    ```
@@ -70,6 +76,7 @@ See steps below for the cdisk preparation:
    docker system prune
    ```
 
+<p align="right">(<a href="#ubuntu22-vm-top">back to top</a>)</p>
 
 ## Installation
 
@@ -109,7 +116,7 @@ Proceed with the VM installation steps below:
    virtvnc         LoadBalancer   10.43.96.13    10.158.76.244   8001:31507/TCP   13h
    ```
 
-4. Launch a web browser on the host and navigate to the url below. Press the ***VNC*** button to initiate VNC session to the VM
+4. Launch a web browser on the host or on a remote client and navigate to the url below. Press the ***VNC*** button to initiate VNC session to the VM
 
    *Note: Both the CLUSTER-IP and EXTERNAL-IP will work. You can also change the namespace value to reflect your VM's namespace*
 
@@ -174,13 +181,15 @@ Proceed with the VM installation steps below:
    ```sh
    cd $HOME/build
 
+   unzip -jo archieve.zip
+
    tar -xzvf kernel.tgz --strip-components=1
 
-   unzip mr2_rele.zip
+   unzip ADL-S_KVM_MultiOS_MR2.zip
 
-   unzip MR2_release/sriov_patches.zip -d $HOME/build
+   unzip ADL-S_KVM_MultiOS_MR2/sriov_patches.zip -d $HOME/build
 
-   unzip -jo MR2_release/ubuntu_kvm_multios_scripts.zip -d $HOME/build
+   unzip -jo ADL-S_KVM_MultiOS_MR2/ubuntu_kvm_multios_scripts.zip -d $HOME/build
 
    chmod +x *.sh
    ```
@@ -226,6 +235,8 @@ Proceed with the VM installation steps below:
     ubuntu22-vm      17h   Stopped   False
     ```
 
+<p align="right">(<a href="#ubuntu22-vm-top">back to top</a>)</p>
+
 ## Deployment
 
 1. After completing the Ubuntu VM setup, we can proceed to deploy the VM with an assigned graphics virtual function (VF) resource. This will enable GPU acceleration capability for the VM
@@ -260,6 +271,8 @@ Proceed with the VM installation steps below:
 3. Congratulation! You have completed the setup
 
    *Note: You can start or stop the VM anytime using the following command: `kubectl virt start ubuntu22-vm` and `kubectl virt stop ubuntu22-vm`*
+
+<p align="right">(<a href="#ubuntu22-vm-top">back to top</a>)</p>
 
 [readme]: ../README.md
 [readme-getting-started]: ../README.md#getting-started
