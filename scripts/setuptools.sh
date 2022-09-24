@@ -308,3 +308,7 @@ if [[ $OPT_UNINSTALL = true && $OPT_ARG_K3S = true ]]; then
     warn 'Skip "k3s" uninstallation'
   fi
 fi
+
+echo ""
+echo "Restart shell session for changes to take effect"
+echo ""
