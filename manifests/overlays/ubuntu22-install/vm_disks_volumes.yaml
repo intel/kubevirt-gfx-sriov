@@ -32,5 +32,5 @@ spec:
           imagePullPolicy: IfNotPresent
       - name: linuxsoftwaredrviso
         containerDisk:
-          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/linuxutil-iso-containerdisk
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/linux-softwaredrv-iso-cdisk
           imagePullPolicy: IfNotPresent
