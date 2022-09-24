@@ -172,7 +172,9 @@ The following is required:
 
 10. Update KubeVirt custom resource configuration to enable virt-handler to discover graphics VFs on the host. All discovered VFs will be published as *allocatable* resource
     ```sh
-    kubectl apply -f manifests/kubevirt-cf-gfx-sriov.yaml
+    cd applications.virtualization.kubevirt-gfx-sriov
+
+    kubectl apply -f manifests/kubevirt-cr-gfx-sriov.yaml
     ```
 
 11. Check for resource presence: `intel.com/sriov-gpudevices`
@@ -260,6 +262,6 @@ Distributed under the Apache License, Version 2.0. See `LICENSE` for more inform
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [product-screenshot]: docs/media/winubuntu.png
 [documentation-folder]: docs/
-[deploy-windows-vm]: docs/deploy-windows-vm.md
-[deploy-ubuntu-vm]: docs/deploy-ubuntu-vm.md
+[deploy-windows-vm]: docs/deploy-windows-vm.md#microsoft-windows-10-vm
+[deploy-ubuntu-vm]: docs/deploy-ubuntu-vm.md#ubuntu-2204-lts-vm
 [architecture-design]: docs/architecture-design.md
