@@ -79,7 +79,7 @@ Access to appropriate hardware and drivers is required for the setup. Graphics S
   * [Manual Install][manual-install]
 
 ### Quick Install
-1. Clone the repo
+1. Clone the repo and install toolkit. When prompted, answer 'y' to proceed with the installation
 
    ***Note: If operating behind corporate firewall, setup the proxy settings before continue***
 
@@ -93,7 +93,7 @@ Access to appropriate hardware and drivers is required for the setup. Graphics S
 
 2. After reboot, check for the presence of `intel.com/sriov-gpudevices` resource
 
-    *Note: Please wait for all virt-handler pods to complete restarts using the following command: `kubectl get pods -n kubevirt`*
+    *Note: Please wait for all pods' *STATUS*=***Running*** by checking with the following command: `kubectl get pods -n kubevirt`*
     ```sh
     kubectl describe nodes
     ```

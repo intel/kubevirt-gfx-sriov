@@ -104,7 +104,7 @@
     kubectl apply -f manifests/kubevirt-cr-gfx-sriov.yaml
     ```
 
-11. Check for resource presence: `intel.com/sriov-gpudevices`
+11. Check for presence of `intel.com/sriov-gpudevices` resource
 
     *Note: Please wait for all virt-handler pods to complete restarts using the following command: `kubectl get pods -n kubevirt`*
     ```sh
