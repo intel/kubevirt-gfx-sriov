@@ -310,5 +310,5 @@ if [[ $OPT_UNINSTALL = true && $OPT_ARG_K3S = true ]]; then
 fi
 
 echo ""
-echo "Restart shell session for changes to take effect"
+echo "Restart shell session for change to take effect"
 echo ""
