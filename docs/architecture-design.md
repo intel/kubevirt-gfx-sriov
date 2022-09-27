@@ -35,12 +35,12 @@
 
 ## Introduction
 
-KubeVirt Graphics SR-IOV software package provides simple steps for
+KubeVirt Graphics SR-IOV software package provides steps for
 cloud native graphics SR-IOV enablement.
 
 ## Scope
 
-This document captures architectural detail on graphics SR-IOV edge
+This document captures architectural details of graphics SR-IOV edge
 cloud ecosystem enablement for cloud native application.
 
 ## Purpose
@@ -59,18 +59,17 @@ teams to understand the overall architecture and components involved.
 | SR-IOV | Single Root I/O Virtualization |
 |        |                                |
 
-# KubeVirt Graphics SR-IOV Architecture
+# KubeVirt Graphics SR-IOV Architecture Overview
 
 KubeVirt Graphics SR-IOV (Kubevirt-Gfx-SRIOV) leverage Kubernetes
 orchestrator and KubeVirt to deploy and manage VM resources. Ready to
-use images are encapsulated by container in dedicated repository, will
-be deployed by KubeVirt with a simple command line.
+use images are encapsulated by container in dedicated repository, which can be deployed by KubeVirt with a simple command line.
 
 ## Architecture design
 
 The purpose of this software package is to enable Graphics SR-IOV for
 cloud native application. The software package consists of YAML files
-and bash script files. The YAML files that are needed to configure the
+and bash script files. The YAML files are required to configure the
 virtual environment running on Kubernetes cluster. The bash script files
 provided are for graphic SR-IOV enablement and Kubernetes cluster setup.
 
@@ -80,8 +79,7 @@ style="width:5.97285in;height:2.04in" />
 <span id="_Toc109894013" class="anchor"></span>*Figure 1
 Kubevirt-Gfx-SRIOV Flow*
 
-The diagram below is the design for this software package. It consists
-of YAML files bash script files. The bash script files automate the
+The diagram below is the design for this software package. It consists of YAML files and bash script files. The bash script files automate the
 installation of virtual machine environment and graphic SR-IOV
 enablement. The YAML files consist of configuration for virtual
 environment and graphic SR-IOV configuration.
