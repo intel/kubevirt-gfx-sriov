@@ -79,9 +79,9 @@ Access to appropriate hardware and drivers is required for the setup. Graphics S
   * [Manual Install][manual-install]
 
 ### Quick Install
-1. Clone the repo and install toolkit. When prompted, answer 'y' to proceed with the installation
+1. Clone the repo and install toolkit. When prompted, answer 'y' to proceed with the installation.
 
-   ***Note: If operating behind corporate firewall, setup the proxy settings before continue***
+   ***Note: If operating behind corporate firewall, setup the proxy settings before continue. `easy_install.sh` should only be run on newly setup system to prevent overwriting existing installed software and configuration. For more customized installation, please see [Manual Install][manual-install]***
 
    ```sh
    git clone https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov.git gfx-sriov
