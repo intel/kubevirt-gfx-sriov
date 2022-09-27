@@ -156,6 +156,15 @@ Refer to the link below for information on the architecture and design of the ov
 
 [Architecture and Design][architecture-design]
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+## Troubleshooting
+
+Refer to the link below for common problems people encounter
+
+[Troubleshooting][troubleshooting]
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -193,3 +202,4 @@ Distributed under the Apache License, Version 2.0. See *LICENSE* for more inform
 [deploy-ubuntu-vm]: docs/deploy-ubuntu-vm.md#ubuntu-2204-lts-vm
 [architecture-design]: docs/architecture-design.md#revision-history
 [manual-install]: docs/manual-install.md#manual-install
+[troubleshooting]: docs/troubleshooting.md#troubleshooting
