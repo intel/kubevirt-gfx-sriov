@@ -4,7 +4,7 @@
   <h3 align="center">Intel® Graphics SR-IOV Enablement Toolkit</h3>
 
   <p align="center">
-    This project contains the software components and ingredients to enable Intel's graphics virtualization technology (Graphics SR-IOV) on cloud/edge-native infrastructure. The aim is to deliver GPU-accelerated workloads capability to virtual machines running on Kubernetes cluster.
+    This project contains the software components and ingredients to enable Intel's graphics virtualization technology (Graphics SR-IOV) on cloud/edge-native infrastructure. The aim is to deliver GPU-accelerated workloads capability to virtual machines running on Kubernetes cluster
     <br />
     <a href="https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov"><strong>Explore the docs »</strong></a>
     <br />
@@ -45,9 +45,29 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Product Name Screen Shot][product-screenshot]
+**Intel Graphics SR-IOV Technology**
 
-This repository contains the collection of scripts, manifests and documentation to enable **Graphics SR-IOV** for cloud/edge-native application development. [KubeVirt](https://github.com/kubevirt/kubevirt) is the main component used to manage Virtual Machines (VMs) and the Graphics SR-IOV resources on the host.
+Graphics SR-IOV is Intel's latest Virtualization Technology for Graphics. Single Root I/O Virtualization (SR-IOV) defines a standard method for sharing a physical device function by partitioning the device into multiple virtual functions. Each virtual function is directly assigned to a virtual machine, thereby achieving near native performance for the virtual machine
+
+The key benefits of Intel Graphics SR-IOV are:
+  * A standard method of sharing physical GPU with virtual machines, thus allowing efficient use of GPU resource in a virtual system
+  * Improved **video transcode**, **media AI analytics** and **Virtual Desktop Infrastructure (VDI)** workloads performance in virtual machine
+  * Support up to 4 independent display output and 7 virtualized functions (12th Generation Intel Core embedded processors)
+  * Support multiple guest operating system
+
+**Cloud/Edge Native Technology**
+
+Application containerization and Kubernetes orchestrator have revolutionarized the way software is developed and deployed. The containerization era has led to the development of microservices that typically run as containers and have the advantage of being lightweight, require less memory, fast startup time and operate at native performance. But there are scenarios where your application still need to run as full-fledge virtual manchines and cannot be run as containers due to legacy software support or integration complexity.
+
+In order to achieve the best of both worlds, we can leverage **Kubernetes and KuberVirt**, a Kubernetes extension, that allows running traditional virtual machine workloads natively side by side with container workloads. With this solution, you can have the advantage of a single infrastructure for both containerized and virtualized workloads. You can also benefit from the power and features of Kubernetes
+
+<img src=./docs/media/overview.png width="30%">
+
+**Intel Graphics SR-IOV Enablement Toolkit**
+
+This repository contains scripts, manifests and documentation, collectively known as the *Intel Graphics SR-IOV Enablement Tookit* to help software developer enable **Graphics SR-IOV** for cloud/edge native application development
+
+![Product Name Screen Shot][product-screenshot]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -166,7 +186,8 @@ Distributed under the Apache License, Version 2.0. See *LICENSE* for more inform
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[product-screenshot]: docs/media/winubuntu.png
+[overview]: docs/media/overview.png
+[product-screenshot]: docs/media/hl-block-diagram.png
 [documentation-folder]: docs/
 [deploy-windows-vm]: docs/deploy-windows-vm.md#microsoft-windows-10-vm
 [deploy-ubuntu-vm]: docs/deploy-ubuntu-vm.md#ubuntu-2204-lts-vm
