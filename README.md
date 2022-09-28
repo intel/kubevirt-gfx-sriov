@@ -35,6 +35,7 @@
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#architecture-design">Architecture Design</a></li>
+    <li><a href="#troubleshooting">Troubleshooting</a></li>
     <li><a href="#resources">Resources</a></li>
     <li><a href="#license">License</a></li>
   </ol>
