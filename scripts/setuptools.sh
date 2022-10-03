@@ -220,6 +220,13 @@ if [[ $OPT_INSTALL = true && $OPT_UNINSTALL = true ]]; then
   exit 1
 fi
 
+# no valid option entered
+if [[ $OPT_INSTALL != true && $OPT_UNINSTALL != true ]]; then
+  echo "$0: invalid option"
+  usage
+  exit 1
+fi
+
 # determine option arguments entered
 index=0
 while [[ $index -lt ${#OPT_ARG} ]]; do
