@@ -6,7 +6,7 @@
 
 1. Clone the repo
 
-   ***Note: If operating behind corporate firewall, setup the proxy settings before continue***
+   ***Note: If operating behind corporate firewall, setup the proxy settings before continuing***
 
    ```sh
    git clone https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov.git
@@ -125,7 +125,7 @@
 
 ## Uninstall
 
-1. To uninstall all components you can run command below or you can specify which component to uninstall. 
+1. To uninstall all the components you can run the command below or you can specify which component to uninstall.
 
    *Note: Get help on `setuptools.sh` by running `setupstool.sh -h`*
    ```sh

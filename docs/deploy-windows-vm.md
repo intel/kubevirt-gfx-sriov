@@ -2,7 +2,7 @@
 
 # Microsoft Windows 10 VM
 
-In this document, we are going explain how to install Windows 10 virtual machine (VM) using **ISO** file and how to configure the VM to support GPU-accelerated workloads (eg: media transcoding, 3D rendering, AI inferencing) using Intel Graphics SR-IOV technology
+This document details steps to install Windows 10 virtual machine (VM) using **ISO** file and how to configure the VM to support GPU-accelerated workloads (eg: media transcoding, 3D rendering, AI inferencing) using Intel Graphics SR-IOV technology
 
 
 ## Prerequisites
@@ -17,7 +17,7 @@ In this document, we are going explain how to install Windows 10 virtual machine
 
 ## Preparation
 
-Prior to installing Windows 10 VM, we'll create two *container disk images* (cdisk) to simplify the installation process. The cdisk images will contain:
+Before installing Windows 10 VM, create two *container disk images* (cdisk) to simplify the installation process. The cdisk images will contain:
 1. Windows 10 ISO file
 
 2. Intel Graphics Driver and Windows 10 update files
@@ -68,7 +68,7 @@ See steps below for the cdisk preparation:
 
    *Note: We only use docker to create and upload cdisk images to the repository. However, for deployment, we use **crictl** to manage containers on the host, eg: `sudo crictl images`, `sudo crictl pull <repo/image>`*
 
-4. [Optional] Once cdisk images have been upload to the repository, you can delete all docker images on the host to free up storage space
+4. [Optional] Once the cdisk images are uploaded to the repository, you can delete all docker images on the host to free up storage space
    ```sh
    docker rmi <repository>/win10-iso-cdisk:latest
 
@@ -151,7 +151,7 @@ Proceed with the VM installation steps below:
 
 8. At this point, you have the option to enable remote desktop service on the VM to allow remote client to access the VM using RDP connection. To enable remote desktop service on the VM, go to *Settings -> Remote desktop settings -> turn **On** Enable Remote Desktop*
 
-   On the host, run command below to get the EXTERNAL-IP address of the RDP service for the VM
+   On the host, run the command below to get the EXTERNAL-IP address of the RDP service for the VM
 
    ```sh
    kubectl get svc
@@ -173,7 +173,7 @@ Proceed with the VM installation steps below:
 
     <img src=./media/sshsvc.png width="90%">
 
-    On the host, run command below to get the CLUSTER-IP of the SSH service for the VM
+    On the host, run the command below to get the CLUSTER-IP of the SSH service for the VM
     ```sh
     kubectl get svc
     ```
@@ -187,7 +187,7 @@ Proceed with the VM installation steps below:
     ssh <vmuser>@<CLUSTER-IP>
     ```
 
-11. Shutdown the Windows VM and run the following command to stop the *win10-vm* Virtual Machine resource before moving to **Deployment** stage
+11. Shutdown the Windows VM and run the command below to stop the *win10-vm* Virtual Machine resource before moving to **Deployment** stage
 
     ```sh
     kubectl virt stop win10-vm

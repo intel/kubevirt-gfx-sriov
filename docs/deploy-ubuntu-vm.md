@@ -1,8 +1,8 @@
 <a name="ubuntu22-vm-top"></a>
 
-# Ubuntu 22.04 LTS  VM
+# Ubuntu* 22.04 LTS  VM
 
-In this document, we are going to explain how to install Ubuntu 22.04 virtual machine (VM) using **ISO** file and how to configure the VM to support GPU-accelerated workloads (eg: media transcoding, 3D rendering, AI inferencing) using Intel Graphics SR-IOV technology
+This document details the steps to install Ubuntu* 22.04 virtual machine (VM) using **ISO** file and how to configure the VM to support GPU-accelerated workloads (eg: media transcoding, 3D rendering, AI inferencing) using Intel Graphics SR-IOV technology
 
 
 ## Prerequisites
@@ -10,21 +10,21 @@ In this document, we are going to explain how to install Ubuntu 22.04 virtual ma
 * Appropriate [hardware][readme-getting-started]
 * A fully [configured host][readme-getting-started] (with Graphics SR-IOV)
 * A working Kubernetes cluster
-* [Ubuntu 22.04 desktop ISO.](https://releases.ubuntu.com/22.04/) In this example we are using Ubuntu 22.04 desktop
+* [Ubuntu* 22.04 desktop ISO.](https://releases.ubuntu.com/22.04/) In this example we are using Ubuntu* 22.04 desktop
 * [MR2 release package](https://cdrdv2.intel.com/v1/dl/getContent/738824/738826?filename=ADL-S_KVM_MultiOS_MR2.zip) (ADL-S_KVM_MultiOS_MR2.zip)
 * [Linux kernel archive][readme-prerequisites] (kernel.tgz)
 
 
 ## Preparation
 
-Prior to installing Ubuntu 22.04 VM, we'll create two *container disk images* (cdisk) to simplify the installation process. The cdisk images will contain:
-1. Ubuntu 22.04 ISO file
+Prior to installing Ubuntu* 22.04 VM, we'll create two *container disk images* (cdisk) to simplify the installation process. The cdisk images will contain:
+1. Ubuntu* 22.04 ISO file
 
-2. Linux kernel archive and MR2 release package files
+2. Linux* kernel archive and MR2 release package files
 
 See steps below for the cdisk preparation:
 
-1. Download Ubuntu 22.04 ISO and MR2 release package files
+1. Download Ubuntu* 22.04 ISO and MR2 release package files
 
 2. Create and push ***ubuntu22-iso-cdisk*** image to public or private repository of your choice
 
@@ -82,9 +82,9 @@ See steps below for the cdisk preparation:
 
 Proceed with the VM installation steps below:
 
-1. Before starting Ubuntu VM installation, make sure all the **volumes > containerDisk > image** specified in [vm_disks_volumes.yaml][vmdiskvolume] are set to the correct values, eg: ***image: docker.io/myrepo/ubuntu22-iso-cdisk***. Executing commands below on the host will invoke the following actions:
+1. Before starting Ubuntu* VM installation, make sure all the **volumes > containerDisk > image** specified in [vm_disks_volumes.yaml][vmdiskvolume] are set to the correct values, eg: ***image: docker.io/myrepo/ubuntu22-iso-cdisk***. Executing commands below on the host will invoke the following actions:
      * Create an empty persistent volume on the host
-     * Launch VM with Ubuntu ISO and software driver ISO files attached as CD-ROMs
+     * Launch VM with Ubuntu* ISO and software driver ISO files attached as CD-ROMs
      * Enable SSH service
 
    ```sh
@@ -125,20 +125,20 @@ Proceed with the VM installation steps below:
    ```
    <img src=./media/virtvnc2.png width="80%">
 
-5. Follow the instructions on the Ubuntu Install menu to begin the setup process
+5. Follow the instructions on the Ubuntu* Install menu to begin the setup process
 
    <img src=./media/ubuntusetup.png width="80%">
 
    <img src=./media/ubuntublank.png width="80%">
 
-6. After Ubuntu VM is successfully installed, run commands below in the VM to update and upgrade all software packages and install OpenSSH Server
+6. After Ubuntu* VM is successfully installed, run commands below in the VM to update and upgrade all software packages and install OpenSSH Server
 
    ***Note: If operating behind corporate firewall, setup the proxy settings.*** *Add the following to /etc/environment file and run `source /etc/environment`*
      * _http_proxy=\<proxy-server:port>_
      * _https_proxy=\<proxy-server:port>_
      * _no_proxy=\<example>.com,.\<example>.com,localhost,127.0.0.0/8,192.168.0.0/16_
 
-   Ubuntu VM:
+   Ubuntu* VM:
    ```sh
    sudo apt update && sudo apt upgrade -y
 
@@ -194,7 +194,7 @@ Proceed with the VM installation steps below:
    chmod +x *.sh
    ```
 
-9. Download and install i915 firmware files, install Linux kernel and update VM grub settings
+9. Download and install i915 firmware files, install Linux* kernel and update VM grub settings
 
    ```sh
    cd $HOME/build
@@ -222,7 +222,7 @@ Proceed with the VM installation steps below:
     sudo ./sriov_setup_ubuntu.sh
     ```
 
-11. Shutdown the Ubuntu VM and run the following command to stop the *ubuntu22-vm* Virtual Machine resource before moving to **Deployment** stage
+11. Shutdown the Ubuntu* VM and run the following command to stop the *ubuntu22-vm* Virtual Machine resource before moving to **Deployment** stage
 
     ```sh
     kubectl virt stop ubuntu22-vm
@@ -239,7 +239,7 @@ Proceed with the VM installation steps below:
 
 ## Deployment
 
-1. After completing the Ubuntu VM setup, we can proceed to deploy the VM with an assigned graphics virtual function (VF) resource. This will enable GPU acceleration capability for the VM
+1. After completing the Ubuntu* VM setup, we can proceed to deploy the VM with an assigned graphics virtual function (VF) resource. This will enable GPU acceleration capability for the VM
 
    *Note: To view all the composed resources without applying them, run `kubectl kustomize manifests/overlays/ubuntu22-deploy`*
 
@@ -268,7 +268,7 @@ Proceed with the VM installation steps below:
    DISPLAY=:0 glxinfo
    ```
 
-3. Congratulation! You have completed the setup
+3. Congratulations! You have completed the setup
 
    *Note: You can start or stop the VM anytime using the following command: `kubectl virt start ubuntu22-vm` and `kubectl virt stop ubuntu22-vm`*
 

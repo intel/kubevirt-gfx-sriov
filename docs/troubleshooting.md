@@ -2,9 +2,9 @@
 
 # Troubleshooting
 
-Learn how to resolve the most common problems people encounter.
+Learn how to resolve the most common issues users encounter while setting up host or VM.
 
-If you're encountering some problems setting up host or VM, here's a list of resolutions to some of the problems you may be experiencing
+A list of resolutions is detailed below:
 
 1. **intel.com/sriov-gpudevice** resource not found when executing command `kubectl describe node`
 
