@@ -1,0 +1,12 @@
+[Unit]
+Description=Intel Graphics SR-IOV Virtual Function Manager
+ConditionPathExists=/var/vm/scripts/configvfs.sh
+
+[Service]
+Type=oneshot
+RemainAfterExit=true
+ExecStart=/bin/bash /var/vm/scripts/configvfs.sh -e
+ExecStop=/bin/bash /var/vm/scripts/configvfs.sh -d
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,45 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  labels:
+    app/name: virtual-machine
+  name: vm
+  namespace: default
+spec:
+  running: true
+  template:
+    metadata:
+      labels:
+        app/name: virtual-machine
+    spec:
+      domain:
+        cpu:
+          cores: 4
+          model: host-passthrough
+        memory:
+          guest: "4G"
+        devices:
+          autoattachGraphicsDevice: true
+          autoattachPodInterface: true
+          interfaces:
+          - name: default
+            masquerade: {}
+          disks:
+          - name: bootdisk
+            bootOrder: 1
+            disk:
+              bus: virtio
+        machine:
+          type: q35
+        firmware:
+          bootloader:
+            efi:
+              secureBoot: false
+      terminationGracePeriodSeconds: 0
+      networks:
+      - name: default
+        pod: {}
+      volumes:
+      - name: bootdisk
+        persistentVolumeClaim:
+          claimName: bootdisk

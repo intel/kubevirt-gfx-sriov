@@ -1,0 +1,5 @@
+- op: add
+  path: /spec/template/metadata/labels
+  value:
+    app/name: win10-virtual-machine
+    # Note: make sure value matches kustomization.yaml file's commonLabels property value

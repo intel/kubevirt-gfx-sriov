@@ -1,0 +1,44 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: vm
+spec:
+  template:
+    spec:
+      domain:
+        devices:
+          disks:
+          - name: bootdisk
+            bootOrder: 1
+            disk:
+              bus: virtio
+          - name: cdromiso
+            bootOrder: 2
+            cdrom:
+              bus: sata
+              readonly: true
+          - name: virtiocontainerdisk
+            cdrom:
+              bus: sata
+              readonly: true
+          - name: winsoftwaredrviso
+            cdrom:
+              bus: sata
+              readonly: true
+      volumes:
+      - name: bootdisk
+        persistentVolumeClaim:
+          claimName: win10-bootdisk
+          # Note: make sure clamName matches the kustomized pvc name 
+      - name: cdromiso
+        containerDisk:
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/win10-iso-cdisk
+          imagePullPolicy: IfNotPresent
+      - name: virtiocontainerdisk
+        containerDisk:
+          image: docker.io/kubevirt/virtio-container-disk
+          imagePullPolicy: IfNotPresent
+      - name: winsoftwaredrviso
+        containerDisk:
+          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/win-softwaredrv-iso-cdisk
+          imagePullPolicy: IfNotPresent

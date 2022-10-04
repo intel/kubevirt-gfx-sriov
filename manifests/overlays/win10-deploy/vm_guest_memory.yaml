@@ -1,0 +1,4 @@
+- op: replace
+  path: /spec/template/spec/domain/memory
+  value:
+    guest: "6G"
