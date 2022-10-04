@@ -181,7 +181,7 @@ Proceed with the VM installation steps below:
    ```sh
    cd $HOME/build
 
-   unzip -jo archieve.zip
+   unzip -jo archive.zip
 
    tar -xzvf kernel.tgz --strip-components=1
 
