@@ -1,1 +1,0 @@
-# kubevirt-gfx-sriov
