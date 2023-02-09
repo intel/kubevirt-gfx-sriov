@@ -62,6 +62,87 @@ Finally, you will need to update the grub configuration by running the following
 update-grub
 ```
 
-Step 9: Restart
+#### Step 9: Restart
 
 After completing all of the above steps, you will need to restart your machine in order for the changes to take effect.
+
+### Validation
+
+we need to validate the host using virt-host-validate , the output should look like :
+
+```
+  QEMU: Checking for hardware virtualization                                 : PASS
+  QEMU: Checking if device /dev/kvm exists                                   : PASS
+  QEMU: Checking if device /dev/kvm is accessible                            : PASS
+  QEMU: Checking if device /dev/vhost-net exists                             : PASS
+  QEMU: Checking if device /dev/net/tun exists                               : PASS
+  QEMU: Checking for cgroup 'cpu' controller support                         : PASS
+  QEMU: Checking for cgroup 'cpuacct' controller support                     : PASS
+  QEMU: Checking for cgroup 'cpuset' controller support                      : PASS
+  QEMU: Checking for cgroup 'memory' controller support                      : PASS
+  QEMU: Checking for cgroup 'devices' controller support                     : PASS
+  QEMU: Checking for cgroup 'blkio' controller support                       : PASS
+  QEMU: Checking for device assignment IOMMU support                         : PASS
+  QEMU: Checking if IOMMU is enabled by kernel                               : PASS
+  QEMU: Checking for secure guest support                                    : WARN (Unknown if this platform has Secure Guest support)
+   LXC: Checking for Linux >= 2.6.26                                         : PASS
+   LXC: Checking for namespace ipc                                           : PASS
+   LXC: Checking for namespace mnt                                           : PASS
+   LXC: Checking for namespace pid                                           : PASS
+   LXC: Checking for namespace uts                                           : PASS
+   LXC: Checking for namespace net                                           : PASS
+   LXC: Checking for namespace user                                          : PASS
+   LXC: Checking for cgroup 'cpu' controller support                         : PASS
+   LXC: Checking for cgroup 'cpuacct' controller support                     : PASS
+   LXC: Checking for cgroup 'cpuset' controller support                      : PASS
+   LXC: Checking for cgroup 'memory' controller support                      : PASS
+   LXC: Checking for cgroup 'devices' controller support                     : PASS
+   LXC: Checking for cgroup 'freezer' controller support                     : FAIL (Enable 'freezer' in kernel Kconfig file or mount/enable cgroup controller in your system)
+   LXC: Checking for cgroup 'blkio' controller support                       : PASS
+   LXC: Checking if device /sys/fs/fuse/connections exists                   : PASS
+```
+
+Here IOMMU, kvm should not FAIL. If IOMMU is shown as `FAIL`, check the BIOS settings.
+
+### Configure VFIO devices for SR-IOV by updating sysfs
+
+If `virt-host-validate` command output looks good, move the configuration scripts provided [here](https://github.com/unrahul/applications.virtualization.kubevirt-gfx-sriov/tree/main/scripts) to `/var/vm/scripts`.
+
+Move the systemd unit file for SR-IOV  `gfx-virtual-func.service` to `/etc/systemd/system`. Enable and start the service. 
+
+```bash
+sudo systemctl enable gfx-virtual-func
+sudo systemctl start gfx-virtual-func
+```
+
+Check the status of the service:
+
+```bash
+udo systemctl status gfx-virtual-func.service 
+● gfx-virtual-func.service - Intel Graphics SR-IOV Virtual Function Manager
+     Loaded: loaded (/etc/systemd/system/gfx-virtual-func.service; enabled; vendor preset: enabled)
+     Active: active (exited) since Wed 2023-02-08 11:14:14 PST; 6h ago
+    Process: 1823 ExecStart=/bin/bash /var/vm/scripts/configvfs.sh -e (code=exited, status=0/SUCCESS)
+   Main PID: 1823 (code=exited, status=0/SUCCESS)
+        CPU: 2.050s
+
+--- systemd[1]: Starting Intel Graphics SR-IOV Virtual Function Manager...
+bash[1823]: Device: /sys/bus/pci/devices/0000:4d:00.0
+bash[1823]: Total VF: 4
+bash[1823]: ID: 0x8086 0x56c0
+bash[1823]: VF enabled: 4
+systemd[1]: Finished Intel Graphics SR-IOV Virtual Function Manager
+```
+
+As seen above,  4 SR-IOV devices (4vGPUS or Virtual Functions) have been enabled by writing into the pci sysfs for `display`, we can list out SR-IOV devices have been created by using:
+
+```bash
+lspci | grep -i display
+4d:00.0 Display controller: Intel Corporation Device 56c0 (rev 08)
+4d:00.1 Display controller: Intel Corporation Device 56c0 (rev 08)
+4d:00.2 Display controller: Intel Corporation Device 56c0 (rev 08)
+4d:00.3 Display controller: Intel Corporation Device 56c0 (rev 08)
+4d:00.4 Display controller: Intel Corporation Device 56c0 (rev 08)
+```
+
+Now we have the host setup and ready. You can use libvirt tools like `virsh` or kubevirt and k8s to deploy and manage virtual machines withSR-IOV support.
