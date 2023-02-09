@@ -1,6 +1,6 @@
-## Enabling SR-IOV for an ATS dGPU
+## Enabling SR-IOV for an ATS dGPU, k8s and kubevirt
 
-The following steps will guide you through the process of enabling SR-IOV for an ATS dGPU from Intel in a Kubernetes environment.
+The following steps will guide you through the process of enabling SR-IOV for an ATS dGPU from Intel in a Kubernetes environment. Please set up the host machine using the doc from [here](https://github.com/unrahul/applications.virtualization.kubevirt-gfx-sriov/blob/main/docs/ats/configure-host.md).
 
 
 ### Prerequisites
