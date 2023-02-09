@@ -1,4 +1,4 @@
-## Enabling SR-IOV for an ATS dGPU from Intel
+## Enabling SR-IOV for an ATS dGPU
 
 The following steps will guide you through the process of enabling SR-IOV for an ATS dGPU from Intel in a Kubernetes environment.
 
