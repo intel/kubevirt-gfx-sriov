@@ -35,10 +35,11 @@ This command applies the SR-IOV manifests to the Kubernetes cluster. The SR-IOV 
 
 #### Step 2: Create a CDisk
 
+Have the iso file you want to convert as a cdisk in your local dir, here I am using a ubuntu 22.04 iso.
 Create a bootable disk image from an Ubuntu 22.04 ISO file by running the following script:
 
 ```bash
-./gfx-sriov/scripts/buildcdisk.sh -i /home/intel/ubuntu-22.04.1-live-server-amd64.iso  -t docker.io/rahulunair/ubvm22:v0.1
+./gfx-sriov/scripts/buildcdisk.sh -i ubuntu-22.04.1-live-server-amd64.iso  -t docker.io/rahulunair/ubvm22:v0.1
 ```
 
 This script creates a bootable disk image using the specified Ubuntu ISO file and tags it with the specified name and version. The bootable disk image is used to launch the virtual machine.
