@@ -1,3 +1,5 @@
+## Host configuration
+
 This guide will provide detailed steps on how to enable SR-IOV (Single Root I/O Virtualization) on a machine running Ubuntu 22.04. SR-IOV is a technique used in virtualization to directly assign a PCI Express (PCIe) device to a virtual machine (VM). This will allow the virtual machine to have direct access to the device's resources, such as its memory, interrupt handling and I/O, resulting in lower latency and improved performance.
 
 Before we begin, it is important to note that this guide assumes that you have an ATS dGPU (Intel Flex series dGPU) and that you have already enabled Vt-d (Intel Virtualization Technology for Directed I/O), SR-IOV, and VMX in your BIOS.
