@@ -86,7 +86,15 @@ update-grub
 
 #### Step 9: Restart
 
-After completing all of the above steps, you will need to restart your machine in order for the changes to take effect.
+After completing all of the above steps, you will need to restart your machine in order for the changes to take effect. Once the system boots up, ensure the kernel running is `5.15.0-48` by:
+
+```bash
+uname -r
+```
+You should have an output like:
+```
+5.15.0-48-generic
+```
 
 ### Validation
 
