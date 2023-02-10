@@ -4,7 +4,7 @@ This guide will provide detailed steps on how to enable SR-IOV (Single Root I/O 
 
 Before we begin, it is important to note that this guide assumes that you have an ATS dGPU (Intel Flex series dGPU) and that you have already enabled Vt-d (Intel Virtualization Technology for Directed I/O), SR-IOV, and VMX in your BIOS.
 
-Step 1: Install the Required Kernel
+#### Step 1: Install the Required Kernel
 
 To use SR-IOV, you will need to install a specific kernel version. The version you need to install is linux-image-5.15.0-48-generic. You can install it using the following command:
 
@@ -12,11 +12,11 @@ To use SR-IOV, you will need to install a specific kernel version. The version y
 sudo apt-get install linux-image-5.15.0-48-generic
 ```
 
-Step 2: Setup dGPU Drivers
+#### Step 2: Setup dGPU Drivers
 
 Next, you will need to setup the drivers for your ATS dGPU. You can follow the instructions provided in the official dGPU installation guide for Ubuntu, which can be found at the following [link](https://dgpu-docs.intel.com/installation-guides/ubuntu/ubuntu-jammy-dc.html)
 
-Step 3: Install libvirt Tools
+#### Step 3: Install libvirt Tools
 
 In order to use SR-IOV, you will need to install the libvirt tools, which are a set of tools used for virtualization:
 
