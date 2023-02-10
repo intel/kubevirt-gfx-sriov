@@ -7,14 +7,14 @@ This guide outlines the steps required to set up a Linux virtual machine (VM) th
 Before proceeding, ensure that the following tools are installed on your system:
 
 ```bash
-sudo apt-get install git vim socat autoconf xtightvncviewer tightvncserver x11vnc uuid-runtime uuid qemu-kvm ovmf  libvirt-daemon-system libvirt-clients bridge-utils virtinst
+sudo apt-get install socat autoconf  qemu-kvm ovmf  libvirt-daemon-system libvirt-clients bridge-utils virtinst
 ```
 
 ### Get an OS iso file
 
 Here, I am using Ubuntu 22.04 as an example:
 
-``bash
+```bash
 wget https://releases.ubuntu.com/22.04.1/ubuntu-22.04.1-live-server-amd64.iso
 ```
 
@@ -78,6 +78,6 @@ rahul@ubvm2:~$ lspci | grep -i display
 
 The `07:00.0` is the virtual PCIE address provided to the device by libvirt.
 
-Now you can install the right kernel, kernel modules and usermod drivers to utilize the vGPU from the VM.
+Now you can install the kernel modules and usermod drivers as provided in the steps [here](https://dgpu-docs.intel.com/installation-guides/ubuntu/ubuntu-jammy-arc.html?utm_source=pocket_mylist) to utilize the vGPU from the VM.
 
 
