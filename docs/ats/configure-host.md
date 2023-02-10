@@ -48,11 +48,31 @@ GRUB_CMDLINE_LINUX="i915.max_vfs=4 intel_iommu=on iommu=pt"
 
 **Note:** if your default kernel is 5.15.0-xx-generic, you could try to see if SR-IOV works without forcing 5.15.0.-48 to be the default, if not set the GRUB_DEFAULT to be this kernel.
 
-In order to make linux-image-5.15.0-48-generic the default kernel, you will need to add the following line to the grub configuration file:
+First find the menu entry for linux kernel 5.15.0-48-generic by using the command:
 
 ```bash
-GRUB_DEFAULT="gnulinux-advanced-251d71d4-950e-4c83-89e8-1e7b4dfea317>gnulinux-5.15.0-48-generic-advanced-251d71d4-950e-4c83-89e8-1e7b4dfea317"
+grep -E "menuentry '" /boot/grub/grub.cfg
 ```
+
+As an example, the output i get when i run the above command is:
+
+```bash
+menuentry 'Ubuntu' --class ubuntu --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-simple-251d71d4-950e-4c83-89e8-1e7b4dfea317' {
+	menuentry 'Ubuntu, with Linux 5.15.0-58-generic' --class ubuntu --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-5.15.0-58-generic-advanced-251d71d4-950e-4c83-89e8-1e7b4dfea317' {
+	menuentry 'Ubuntu, with Linux 5.15.0-58-generic (recovery mode)' --class ubuntu --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-5.15.0-58-generic-recovery-251d71d4-950e-4c83-89e8-1e7b4dfea317' {
+	menuentry 'Ubuntu, with Linux 5.15.0-48-generic' --class ubuntu --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-5.15.0-48-generic-advanced-251d71d4-950e-4c83-89e8-1e7b4dfea317' {
+	menuentry 'Ubuntu, with Linux 5.15.0-48-generic (recovery mode)' --class ubuntu --class gnu-linux --class gnu --class os $menuentry_id_option 'gnulinux-5.15.0-48-generic-recovery-251d71d4-950e-4c83-89e8-1e7b4dfea317' {
+```
+
+Now to set kernel 5.15.0-48-generic as the default you can either do:
+
+```bash
+GRUB_DEFAULT=3
+```
+
+Here, the entry number 3 is specified as the default boot option in the GRUB configuration file as it corresponds to the menu entry for the 5.15.0-48-generic kernel. Alternatively, you may also set the full menu entry string as the default in the GRUB_DEFAULT setting, as given below:
+
+GRUB_DEFAULT="gnulinux-advanced-251d71d4-950e-4c83-89e8-1e7b4dfea317>gnulinux-5.15.0-48-generic-advanced-251d71d4-950e-4c83-89e8-1e7b4dfea317"
 
 THE UUID (251d7xxxx-) for your system might be different, check your existing grub config to identify the correct UUID and set it. 
 
