@@ -14,7 +14,7 @@ sudo apt-get install linux-image-5.15.0-48-generic
 
 Step 2: Setup dGPU Drivers
 
-Next, you will need to setup the drivers for your ATS dGPU. You can follow the instructions provided in the official dGPU installation guide for Ubuntu, which can be found at the following link: https://dgpu-docs.intel.com/installation-guides/ubuntu/ubuntu-jammy-dc.html
+Next, you will need to setup the drivers for your ATS dGPU. You can follow the instructions provided in the official dGPU installation guide for Ubuntu, which can be found at the following [link](https://dgpu-docs.intel.com/installation-guides/ubuntu/ubuntu-jammy-dc.html)
 
 Step 3: Install libvirt Tools
 
@@ -72,7 +72,9 @@ GRUB_DEFAULT=3
 
 Here, the entry number 3 is specified as the default boot option in the GRUB configuration file as it corresponds to the menu entry for the 5.15.0-48-generic kernel. Alternatively, you may also set the full menu entry string as the default in the GRUB_DEFAULT setting, as given below:
 
+```bash
 GRUB_DEFAULT="gnulinux-advanced-251d71d4-950e-4c83-89e8-1e7b4dfea317>gnulinux-5.15.0-48-generic-advanced-251d71d4-950e-4c83-89e8-1e7b4dfea317"
+```
 
 THE UUID (251d7xxxx-) for your system might be different, check your existing grub config to identify the correct UUID and set it. 
 
