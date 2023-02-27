@@ -16,21 +16,12 @@ spec:
             bootOrder: 2
             cdrom:
               bus: sata
-              readonly: true
-          - name: linuxsoftwaredrviso
-            cdrom:
-              bus: sata
-              readonly: true
+              readonly: false
       volumes:
       - name: bootdisk
         persistentVolumeClaim:
           claimName: ubuntu22-bootdisk
-          # Note: make sure clamName matches the kustomized pvc name 
       - name: cdromiso
         containerDisk:
-          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/ubuntu22-iso-cdisk
-          imagePullPolicy: IfNotPresent
-      - name: linuxsoftwaredrviso
-        containerDisk:
-          image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/linux-softwaredrv-iso-cdisk
+          image: docker.io/rahulunair/ubvm22:v0.1
           imagePullPolicy: IfNotPresent

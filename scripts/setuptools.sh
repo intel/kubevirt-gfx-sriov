@@ -6,6 +6,7 @@ KV_VERSION="v0.53.0"
 CDI_VERSION="v1.48.1"
 KUBECONFIG_PATH="/etc/rancher/k3s/k3s.yaml"
 KREW_PATH="/home/$USER/.krew/bin"
+K3S_VERSION=v1.24.3+k3s1
 
 # helper functions
 info()
@@ -31,7 +32,7 @@ cleanup()
 install_k3s()
 {
   info "Installing K3s"
-  curl -sfL https://get.k3s.io | sh -s - --disable=traefik --write-kubeconfig-mode=644
+  curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=$K3S_VERSION  sh -s - --disable=traefik --write-kubeconfig-mode=644
 }
 
 uninstall_k3s()
