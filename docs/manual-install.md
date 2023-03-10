@@ -9,9 +9,9 @@
    ***Note: If operating behind corporate firewall, setup the proxy settings before continuing***
 
    ```sh
-   git clone https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov.git
+   git clone https://github.com/intel/kubevirt-gfx-sriov.git
    
-   cd applications.virtualization.kubevirt-gfx-sriov
+   cd kubevirt-gfx-sriov
    ```
 
 2. Add additional access to AppArmor libvirtd profile. This step is only required if the host OS (eg: Ubuntu) comes with AppArmor profile that is preventing KubeVirt operation. See [issue](https://github.com/kubevirt/kubevirt/issues/7473) for more detail
@@ -99,7 +99,7 @@
 
 10. Update KubeVirt custom resource configuration to enable virt-handler to discover graphics VFs on the host. All discovered VFs will be published as *allocatable* resource
     ```sh
-    cd applications.virtualization.kubevirt-gfx-sriov
+    cd kubevirt-gfx-sriov
 
     kubectl apply -f manifests/kubevirt-cr-gfx-sriov.yaml
     ```

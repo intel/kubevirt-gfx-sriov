@@ -6,14 +6,14 @@
   <p align="center">
     This project contains the software components and ingredients to enable Intel's graphics virtualization technology (Graphics SR-IOV) on cloud/edge-native infrastructure. The aim is to deliver GPU-accelerated workloads capability to virtual machines running on Kubernetes cluster
     <br />
-    <a href="https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/intel/kubevirt-gfx-sriov"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov">View Demo</a>
+    <a href="https://github.com/intel/kubevirt-gfx-sriov">View Demo</a>
     ·
-    <a href="https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov/issues">Report Bug</a>
+    <a href="https://github.com/intel/kubevirt-gfx-sriov/issues">Report Bug</a>
     ·
-    <a href="https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov/issues">Request Feature</a>
+    <a href="https://github.com/intel/kubevirt-gfx-sriov/issues">Request Feature</a>
   </p>
 </div>
 
@@ -105,7 +105,7 @@ Access to appropriate hardware and drivers is required for the setup. Graphics S
    ***Note: If operating behind corporate firewall, setup the proxy settings before continue. `easy_install.sh` should only be run on newly setup system to prevent overwriting existing installed software and configuration. For more customized installation, please see [Manual Install][manual-install]***
 
    ```sh
-   git clone https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov.git gfx-sriov
+   git clone https://github.com/intel/kubevirt-gfx-sriov.git gfx-sriov
    
    cd gfx-sriov
 
