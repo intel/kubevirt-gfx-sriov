@@ -11,6 +11,18 @@ spec:
         - HostDevices
     permittedHostDevices:
       pciHostDevices:
+      - pciVendorSelector: "8086:4680"
+        resourceName: "intel.com/sriov-gpudevice"
+        externalResourceProvider: false
+      - pciVendorSelector: "8086:46b3"
+        resourceName: "intel.com/sriov-gpudevice"
+        externalResourceProvider: false
+      - pciVendorSelector: "8086:46a6"
+        resourceName: "intel.com/sriov-gpudevice"
+        externalResourceProvider: false
       - pciVendorSelector: "8086:56c0"
+        resourceName: "intel.com/sriov-gpudevice"
+        externalResourceProvider: false
+      - pciVendorSelector: "8086:56c1"
         resourceName: "intel.com/sriov-gpudevice"
         externalResourceProvider: false

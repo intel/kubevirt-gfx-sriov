@@ -29,7 +29,7 @@ spec:
       - name: bootdisk
         persistentVolumeClaim:
           claimName: win10-bootdisk
-          # Note: make sure clamName matches the kustomized pvc name 
+          # Note: make sure claimName matches the kustomized pvc name
       - name: cdromiso
         containerDisk:
           image: gar-registry.caas.intel.com/edgecloud-ecosystem-enabling/win10-iso-cdisk

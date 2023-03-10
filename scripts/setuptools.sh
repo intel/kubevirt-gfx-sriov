@@ -6,7 +6,7 @@ KV_VERSION="v0.53.0"
 CDI_VERSION="v1.48.1"
 KUBECONFIG_PATH="/etc/rancher/k3s/k3s.yaml"
 KREW_PATH="/home/$USER/.krew/bin"
-K3S_VERSION=v1.24.3+k3s1
+K3S_VERSION=v1.24.6+k3s1
 
 # helper functions
 info()
