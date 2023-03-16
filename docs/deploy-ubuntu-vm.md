@@ -33,7 +33,7 @@ See steps below for the cdisk preparation:
    *Note: [Docker Hub](https://hub.docker.com/) is an example public container repository or registry you can sign up if you don't have a private repository setup*
 
    ```sh
-   cd applications.virtualization.kubevirt-gfx-sriov
+   cd kubevirt-gfx-sriov
 
    ./scripts/buildcdisk.sh -p -i <ubuntu22-iso-filepath> -t <repository>/ubuntu22-iso-cdisk
 

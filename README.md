@@ -6,14 +6,14 @@
   <p align="center">
     This project contains the software components and ingredients to enable Intel's graphics virtualization technology (Graphics SR-IOV) on cloud/edge-native infrastructure. The aim is to deliver GPU-accelerated workloads capability to virtual machines running on Kubernetes cluster
     <br />
-    <a href="https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/intel/kubevirt-gfx-sriov"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov">View Demo</a>
+    <a href="https://github.com/intel/kubevirt-gfx-sriov">View Demo</a>
     ·
-    <a href="https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov/issues">Report Bug</a>
+    <a href="https://github.com/intel/kubevirt-gfx-sriov/issues">Report Bug</a>
     ·
-    <a href="https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov/issues">Request Feature</a>
+    <a href="https://github.com/intel/kubevirt-gfx-sriov/issues">Request Feature</a>
   </p>
 </div>
 
@@ -60,7 +60,7 @@ The key benefits of Intel Graphics SR-IOV are:
 
 Application containerization and Kubernetes orchestrator have revolutionarized the way software is developed and deployed. The containerization era has led to the development of microservices that typically run as containers and have the advantage of being lightweight, require less memory, fast startup time and operate at native performance. But there are scenarios where your application still need to run as full-fledge virtual manchines and cannot be run as containers due to legacy software support or integration complexity.
 
-In order to achieve the best of both worlds, we can leverage **Kubernetes and KuberVirt**, a Kubernetes extension, that allows running traditional virtual machine workloads natively side by side with container workloads. With this solution, you can have the advantage of a single infrastructure for both containerized and virtualized workloads. You can also benefit from the power and features of Kubernetes
+In order to achieve the best of both worlds, we can leverage **Kubernetes and KubeVirt**, a Kubernetes extension, that allows running traditional virtual machine workloads natively side by side with container workloads. With this solution, you can have the advantage of a single infrastructure for both containerized and virtualized workloads. You can also benefit from the power and features of Kubernetes
 
 <img src=./docs/media/overview.png width="30%">
 
@@ -105,7 +105,7 @@ Access to appropriate hardware and drivers is required for the setup. Graphics S
    ***Note: If operating behind corporate firewall, setup the proxy settings before continue. `easy_install.sh` should only be run on newly setup system to prevent overwriting existing installed software and configuration. For more customized installation, please see [Manual Install][manual-install]***
 
    ```sh
-   git clone https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov.git gfx-sriov
+   git clone https://github.com/intel/kubevirt-gfx-sriov.git gfx-sriov
    
    cd gfx-sriov
 

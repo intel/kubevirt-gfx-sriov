@@ -28,7 +28,7 @@ pushd $WORK_DIR
 REPO=gfx-sriov
 
 # clone repo
-git clone https://github.com/intel-sandbox/applications.virtualization.kubevirt-gfx-sriov.git $REPO
+git clone https://github.com/intel/kubevirt-gfx-sriov.git $REPO
 
 if [[ ! -d $WORK_DIR/$REPO ]]; then
   echo "Fail to clone repository"
